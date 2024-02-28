@@ -1,17 +1,40 @@
+<H1>Ajout d'un assignment</H1>
+<form ngform #assignmentForm (submit)="onSubmit($event); assignmentForm.reset();" class="form">
+    <mat-form-field>
+        <input matInput placeholder="Nom" required [(ngModel)]="nomAssignment" name="nom">
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Choose a date</mat-label>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="dateDeRendu" name="dateDeRendu">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <button mat-stroked-button color="primary" [disabled]="nomAssignment=='' || dateDeRendu==undefined">
+        Ajouter un devoir
+    </button>
+</form>
+<p>{{nomAssignment}}</p>
 <p>Titre = {{titre}}</p>
 
-@for (assignment of assignments; track assignment.nom){
-    <!-- <div [ngClass]="{'rendu' : assignment.rendu, 'nonRendu' : !assignment.rendu}"> -->
-        <div appRendu>
-        @if (assignment.rendu){
-            <p>
-                le devoir {{assignment.nom}} a ete rendu le {{assignment.dateDeRendu}}
-            </p>
+<table>
+    <tbody>
+        @for (assignment of assignments; track a.nom) {
+        <div [ngStyle]="{'color':getColor(assignment)}">
+            @if(assignment.rendu) {
+            <tr>
+                <td>{{ assignment.nom }}</td>
+                <td>{{ assignment.dateDeRendu|date }}</td>
+                <td>{{ assignment.rendu }}</td>
+            </tr>
+            } @else {
+            <tr>
+                <td>{{ assignment.nom }} NON RENDU !!!!</td>
+            </tr>
+            }
+        </div>
         }
-        @else{
-            <p>
-                le devoir {{assignment.nom}} doit etre rendu le {{assignment.dateDeRendu}}
-            </p>
-        }
-    </div>
-}
+    </tbody>
+</table>
