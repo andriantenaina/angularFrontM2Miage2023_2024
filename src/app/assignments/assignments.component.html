@@ -1,0 +1,17 @@
+<p>Titre = {{titre}}</p>
+
+@for (assignment of assignments; track assignment.nom){
+    <!-- <div [ngClass]="{'rendu' : assignment.rendu, 'nonRendu' : !assignment.rendu}"> -->
+        <div appRendu>
+        @if (assignment.rendu){
+            <p>
+                le devoir {{assignment.nom}} a ete rendu le {{assignment.dateDeRendu}}
+            </p>
+        }
+        @else{
+            <p>
+                le devoir {{assignment.nom}} doit etre rendu le {{assignment.dateDeRendu}}
+            </p>
+        }
+    </div>
+}
