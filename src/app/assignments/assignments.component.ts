@@ -1,19 +1,22 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RenduDirective } from '../shared/rendu.directive';
-
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { Assignment } from './assignment.model';
 import { provideNativeDateAdapter } from '@angular/material/core';
+import {MatListModule} from '@angular/material/list';
+
+import { Assignment } from './assignment.model';
+import { AssignmentDetailComponent } from './assignment-detail/assignment-detail.component';
+
 
 @Component({
   selector: 'app-assignments',
   standalone: true,
   providers: [provideNativeDateAdapter()],
-  imports: [CommonModule,RenduDirective,FormsModule,MatInputModule,MatButtonModule ,MatDatepickerModule],
+  imports: [CommonModule,RenduDirective,FormsModule,MatInputModule,MatButtonModule ,MatDatepickerModule,MatListModule,AssignmentDetailComponent],
   templateUrl: './assignments.component.html',
   styleUrl: './assignments.component.css'
 })

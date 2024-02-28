@@ -17,24 +17,25 @@
     </button>
 </form>
 <p>{{nomAssignment}}</p>
-<p>Titre = {{titre}}</p>
+<p>{{titre}}</p>
 
-<table>
-    <tbody>
-        @for (assignment of assignments; track a.nom) {
-        <div [ngStyle]="{'color':getColor(assignment)}">
-            @if(assignment.rendu) {
-            <tr>
-                <td>{{ assignment.nom }}</td>
-                <td>{{ assignment.dateDeRendu|date }}</td>
-                <td>{{ assignment.rendu }}</td>
-            </tr>
-            } @else {
-            <tr>
-                <td>{{ assignment.nom }} NON RENDU !!!!</td>
-            </tr>
-            }
-        </div>
+<mat-divider></mat-divider>
+@for (assignment of assignments; track assignment.nom) {
+<mat-list>
+    <H3 matListItemTitle>{{assignment.dateDeRendu | date }}</H3>
+    <div [ngStyle]="{'color':getColor(assignment)}">
+        @if(assignment.rendu) {
+        <p matListItemLine>
+            le devoir {{ assignment.nom }} a ete rendu
+        </p>
+        } @else {
+        <p matListItemLine>
+            le devoir {{ assignment.nom }} a rendre
+        </p>
         }
-    </tbody>
-</table>
+    </div>
+    <mat-divider></mat-divider>
+</mat-list>
+}
+
+<app-assignment-detail></app-assignment-detail>
