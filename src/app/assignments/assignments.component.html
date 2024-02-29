@@ -1,41 +1,26 @@
-<H1>Ajout d'un assignment</H1>
-<form ngform #assignmentForm (submit)="onSubmit($event); assignmentForm.reset();" class="form">
-    <mat-form-field>
-        <input matInput placeholder="Nom" required [(ngModel)]="nomAssignment" name="nom">
-    </mat-form-field>
+<div class="container">
+    @if (formVisuble) {
+    <app-add-assignment (nouvelAssignment)="ajouteAssignment($event);"></app-add-assignment>
+    }@else {
+    <button mat-flat-button class="btnAjout" color="accent" (click)="onAddAssignmentBtnClick()"> Ajouter Assignment</button>
 
-    <mat-form-field>
-        <mat-label>Choose a date</mat-label>
-        <input matInput [matDatepicker]="picker" [(ngModel)]="dateDeRendu" name="dateDeRendu">
-        <mat-hint>MM/DD/YYYY</mat-hint>
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
+    <p>{{titre}}</p>
 
-    <button mat-stroked-button color="primary" [disabled]="nomAssignment=='' || dateDeRendu==undefined">
-        Ajouter un devoir
-    </button>
-</form>
-<p>{{nomAssignment}}</p>
-<p>{{titre}}</p>
-
-<mat-divider></mat-divider>
-@for (assignment of assignments; track assignment.nom) {
-<mat-list>
-    <H3 matListItemTitle>{{assignment.dateDeRendu | date }}</H3>
-    <div [ngStyle]="{'color':getColor(assignment)}">
-        @if(assignment.rendu) {
-        <p matListItemLine>
-            le devoir {{ assignment.nom }} a ete rendu
-        </p>
-        } @else {
-        <p matListItemLine>
-            le devoir {{ assignment.nom }} a rendre
-        </p>
-        }
-    </div>
     <mat-divider></mat-divider>
-</mat-list>
-}
+    <mat-list>
+        @for (assignment of assignments; track assignment.nom) {
+        <mat-list-item (click)="assignmentClique(assignment)">
+            <div [ngStyle]="{ color: assignment.rendu ? 'green' : 'red' }">
+                <h3 matLine>{{ assignment.nom }}</h3>
+                <p matLine>rendu: {{ assignment.rendu }}</p>
+                <h3 matListItemTitle>{{ assignment.dateDeRendu | date }}</h3>
+                <p matListItemLine>{{ assignment.nom }} rendu: {{ assignment.rendu }}</p>
+            </div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+        }
+    </mat-list>
 
-<app-assignment-detail></app-assignment-detail>
+    <app-assignment-detail [assignmentTransmis]="assignmentSelectionner" (deleteAssignment)="onDeletAssignment()"></app-assignment-detail>
+    } 
+</div>

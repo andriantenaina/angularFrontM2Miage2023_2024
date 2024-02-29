@@ -1,12 +1,14 @@
 .rendu {
     color: green;
 }
+
 .nonRendu {
     color: red;
 }
-.form {
-    display:flex;
+.container {
+    display: flex;
     flex-direction: column;
-    margin:5px;
- }
- 
+}
+.btnAjout {
+    align-self: flex-end;
+  }

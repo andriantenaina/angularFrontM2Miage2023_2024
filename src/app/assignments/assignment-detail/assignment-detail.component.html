@@ -1,1 +1,16 @@
-<p>assignment-detail works!</p>
+@if (assignmentTransmis) {
+    <h2>Detail de l'assignment:</h2>
+    <mat-card>
+        <mat-card-content>
+            <mat-card-title>{{assignmentTransmis.nom}}</mat-card-title>
+            <mat-card-subtitle>{{assignmentTransmis.dateDeRendu | date}}</mat-card-subtitle>
+        </mat-card-content>
+        <mat-card-actions class="container">
+                @if (!assignmentTransmis.rendu) {
+                    <mat-checkbox (click)="assignmentRendu()" >Rendu</mat-checkbox>
+                }
+                <button mat-raised-button color="warn" (click)="onDelete();">DELETE</button>
+                <!-- <button mat-raised-button color="primary">EDIT</button> -->
+        </mat-card-actions>
+    </mat-card>
+}
