@@ -1,0 +1,29 @@
+<div class="container">
+    <mat-card class="card">
+        <mat-card-header>
+            <mat-card-title>Login</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <form class="example-form">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Email</mat-label>
+                    <input type="email" matInput [formControl]="emailFormControl" placeholder="Ex. pat@example.com" />
+                    @if (emailFormControl.hasError('email') &&
+                    !emailFormControl.hasError('required')) {
+                    <mat-error>Please enter a valid email address</mat-error>
+                    } @if (emailFormControl.hasError('required')) {
+                    <mat-error>Email is <strong>required</strong></mat-error>
+                    }
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Password</mat-label>
+                    <input matInput type="password" [formControl]="passwordFormControl"/>
+                    @if (emailFormControl.hasError('required')) {
+                        <mat-error>Password is <strong>required</strong></mat-error>
+                        }
+                </mat-form-field>
+                <button mat-flat-button color="accent">Login</button>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>
