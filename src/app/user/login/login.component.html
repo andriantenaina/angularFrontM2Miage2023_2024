@@ -4,10 +4,11 @@
             <mat-card-title>Login</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-            <form class="example-form">
+            <form ngForm #loginForm (submit)="login($event); loginForm.reset()" class="form">
                 <mat-form-field class="example-full-width">
                     <mat-label>Email</mat-label>
-                    <input type="email" matInput [formControl]="emailFormControl" placeholder="Ex. pat@example.com" />
+                    <input type="email" matInput [formControl]="emailFormControl" placeholder="Ex. pat@example.com"
+                        [(ngModel)]="email" name="email" />
                     @if (emailFormControl.hasError('email') &&
                     !emailFormControl.hasError('required')) {
                     <mat-error>Please enter a valid email address</mat-error>
@@ -17,12 +18,13 @@
                 </mat-form-field>
                 <mat-form-field class="example-full-width">
                     <mat-label>Password</mat-label>
-                    <input matInput type="password" [formControl]="passwordFormControl"/>
+                    <input matInput type="password" [formControl]="passwordFormControl" [(ngModel)]="password"
+                        name="password" />
                     @if (emailFormControl.hasError('required')) {
-                        <mat-error>Password is <strong>required</strong></mat-error>
-                        }
+                    <mat-error>Password is <strong>required</strong></mat-error>
+                    }
                 </mat-form-field>
-                <button mat-flat-button color="accent">Login</button>
+                <button mat-flat-button color="accent" [disabled]="email == '' || password === undefined">Login</button>
             </form>
         </mat-card-content>
     </mat-card>
