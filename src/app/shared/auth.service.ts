@@ -1,4 +1,4 @@
-import { Auth } from './../user/login/auth.model';
+import { Auth } from '../user/auth.model';
 import { User } from './../user/user.model';
 import { HttpClient,HttpHeaders  } from '@angular/common/http';
 import { Injectable } from '@angular/core';

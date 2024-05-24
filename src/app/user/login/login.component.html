@@ -24,8 +24,11 @@
                     <mat-error>Password is <strong>required</strong></mat-error>
                     }
                 </mat-form-field>
-                <button mat-flat-button color="accent" [disabled]="email == '' || password === undefined">Login</button>
+                <button mat-flat-button color="primary" [disabled]="email == '' || password === undefined">Login</button>
             </form>
+            <div class="btnAjout">
+                  <button mat-flat-button [routerLink]="['/register']" color="accent">Register</button>
+              </div>
         </mat-card-content>
     </mat-card>
 </div>

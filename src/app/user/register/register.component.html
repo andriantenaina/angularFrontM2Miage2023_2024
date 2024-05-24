@@ -1,1 +1,133 @@
-<p>register works!</p>
+<div class="container">
+    <mat-card class="card">
+        <mat-card-header>
+            <mat-card-title>Register</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <!-- <button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
+                {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
+              </button> -->
+              <mat-stepper #stepper>
+                <mat-step [stepControl]="firstFormGroup">
+                  <form #registerForm [formGroup]="firstFormGroup">
+                    <ng-template matStepLabel>Personal information</ng-template>
+                    <!-- <mat-form-field>
+                      <mat-label>Name</mat-label>
+                      <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
+                    </mat-form-field> -->
+
+                    <mat-form-field class="example-full-width">
+                        <mat-label>First Name</mat-label>
+                        <input type="text" matInput placeholder="Charles"
+                            [(ngModel)]="name" formControlName="firstCtrl" name="name" />
+                    </mat-form-field>
+    
+                    <mat-form-field class="example-full-width">
+                        <mat-label>last Name</mat-label>
+                        <input type="text" matInput placeholder="Leclerc"
+                            [(ngModel)]="last_name" formControlName="firstCtrl" name="last_name" />
+                    </mat-form-field>
+    
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Date of Birth</mat-label>
+                        <input type="date" matInput
+                            [(ngModel)]="date_of_birth" formControlName="firstCtrl" name="date_of_birth" />
+                    </mat-form-field>
+                    <div>
+                      <button mat-button matStepperNext>Next</button>
+                    </div>
+                  </form>
+                </mat-step>
+                <mat-step [stepControl]="secondFormGroup">
+                  <form #registerForm [formGroup]="secondFormGroup">
+                    <ng-template matStepLabel>Conection information</ng-template>
+                    <!-- <mat-form-field>
+                      <mat-label>Address</mat-label>
+                      <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
+                             required>
+                    </mat-form-field> -->
+
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Email</mat-label>
+                        <input type="email" matInput  [formControl]="emailFormControl" placeholder="Ex. pat@example.com"
+                            [(ngModel)]="email" name="email" />
+                        @if (emailFormControl.hasError('email') &&
+                        !emailFormControl.hasError('required')) {
+                        <mat-error>Please enter a valid email address</mat-error>
+                        } @if (emailFormControl.hasError('required')) {
+                        <mat-error>Email is <strong>required</strong></mat-error>
+                        }
+                    </mat-form-field>
+
+                    <mat-form-field class="example-full-width">
+                        <mat-label>Password</mat-label>
+                        <input matInput type="password" [formControl]="passwordFormControl" [(ngModel)]="password"
+                            name="password" />
+                        @if (emailFormControl.hasError('required')) {
+                        <mat-error>Password is <strong>required</strong></mat-error>
+                        }
+                    </mat-form-field>
+                    <div>
+                      <button mat-button matStepperPrevious>Back</button>
+                      <button mat-button matStepperNext>Next</button>
+                    </div>
+                  </form>
+                </mat-step>
+                <mat-step>
+                  <ng-template matStepLabel>Done</ng-template>
+                  <p>You are now done.</p>
+                  <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button (click)="stepper.reset()">Reset</button>
+                    <button mat-button (click)="register($event); registerForm.reset()">save</button>
+                  </div>
+                </mat-step>
+              </mat-stepper>
+              
+
+            <!-- <form ngForm #loginForm (submit)="register($event); loginForm.reset()" class="form">
+                <mat-form-field class="example-full-width">
+                    <mat-label>First Name</mat-label>
+                    <input type="text" matInput placeholder="Charles"
+                        [(ngModel)]="name" name="name" />
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <mat-label>last Name</mat-label>
+                    <input type="text" matInput placeholder="leclerc"
+                        [(ngModel)]="last_name" name="last_name" />
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <mat-label>Date of Birth</mat-label>
+                    <input type="date" matInput
+                        [(ngModel)]="date_of_birth" name="date_of_birth" />
+                </mat-form-field>
+
+                <mat-form-field class="example-full-width">
+                    <mat-label>Email</mat-label>
+                    <input type="email" matInput [formControl]="emailFormControl" placeholder="Ex. pat@example.com"
+                        [(ngModel)]="email" name="email" />
+                    @if (emailFormControl.hasError('email') &&
+                    !emailFormControl.hasError('required')) {
+                    <mat-error>Please enter a valid email address</mat-error>
+                    } @if (emailFormControl.hasError('required')) {
+                    <mat-error>Email is <strong>required</strong></mat-error>
+                    }
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <mat-label>Password</mat-label>
+                    <input matInput type="password" [formControl]="passwordFormControl" [(ngModel)]="password"
+                        name="password" />
+                    @if (emailFormControl.hasError('required')) {
+                    <mat-error>Password is <strong>required</strong></mat-error>
+                    }
+                </mat-form-field>
+                <button mat-flat-button color="primary" [disabled]="email == '' || password === undefined">Register</button>
+            </form> -->
+            <div class="btnAjout">
+                  <button mat-flat-button [routerLink]="['/login']" color="accent">Login</button>
+              </div>
+        </mat-card-content>
+    </mat-card>
+</div>

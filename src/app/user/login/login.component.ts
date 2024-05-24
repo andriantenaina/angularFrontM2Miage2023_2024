@@ -1,4 +1,4 @@
-import { Auth } from './auth.model';
+import { Auth } from '../auth.model';
 import { User } from './../user.model';
 import { Component } from '@angular/core';
 import {MatIconModule} from '@angular/material/icon';
@@ -9,13 +9,13 @@ import {MatInputModule} from '@angular/material/input';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatButtonModule} from '@angular/material/button';
 import { AuthService } from '../../shared/auth.service';
-import { Router } from '@angular/router';
+import { Router,RouterModule } from '@angular/router';
 import { response } from 'express';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, MatFormFieldModule,MatIconModule,MatTooltipModule,MatButtonModule, MatInputModule,MatCardModule,ReactiveFormsModule],
+  imports: [FormsModule,RouterModule,MatFormFieldModule,MatIconModule,MatTooltipModule,MatButtonModule, MatInputModule,MatCardModule,ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
