@@ -1,8 +1,11 @@
-export class User {
+import { User } from "../user/user.model";
+
+export class Matiere {
     _id?: string;
     code!: string;
-    description!: string;
     nom!: string;
-    user!: User;
+    description!: string;
+    id_user!: string;
+    user?: User;
     image_name!: string;
   }

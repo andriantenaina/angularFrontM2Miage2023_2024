@@ -6,6 +6,34 @@
   </div>
 
   <h2>{{ titre }}</h2>
+  <div>
+    @for(a of assignments; track a.nom) {
+    <mat-card class="example-card">
+      <mat-card-header>
+        <!-- <mat-card-title-group> -->
+        <div>
+          <img mat-card-avatar class="example-header-image"
+            src="https://material.angular.io/assets/img/examples/shiba1.jpg">
+            <mat-card-subtitle>prof </mat-card-subtitle>
+        </div>
+        <div>
+          <mat-card-title>{{a.nom}}</mat-card-title>
+          <mat-card-subtitle>{{a.dateDeRendu | date : "dd/MM/yyyy"}}</mat-card-subtitle>
+        </div>
+        <div>
+          <img mat-card-avatar class="example-header-image"
+            src="https://material.angular.io/assets/img/examples/shiba2.jpg">
+        </div>
+        <!-- </mat-card-title-group> -->
+      </mat-card-header>
+      <mat-card-content>
+        {{a.id_user}}
+      </mat-card-content>
+    </mat-card>
+    }
+  </div>
+
+
   <p>
     Nb documents : {{ totalDocs }}, nbPages : {{ totalPages }}
     <br />
@@ -16,7 +44,7 @@
     </mat-slider>
   </p>
 
-  <h2>Version avec scrolling infini</h2>
+  <!-- <h2>Version avec scrolling infini</h2>
   <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport" #scroller>
     <mat-list *cdkVirtualFor="let a of assignments" class="example-item">
       <a routerLink="/assignments/{{ a._id }}">
@@ -29,9 +57,9 @@
         <mat-divider></mat-divider>
       </a>
     </mat-list>
-  </cdk-virtual-scroll-viewport>
+  </cdk-virtual-scroll-viewport> -->
 
-  <h1>Avec data table</h1>
+  <!-- <h1>Avec data table</h1>
 
   <div>
     <button mat-raised-button color="primary" [disabled]="!hasPrevPage" [disabled]="!hasPrevPage"
@@ -58,19 +86,16 @@
   </mat-paginator>
 
   <table mat-table [dataSource]="assignments" class="mat-elevation-z8 demo-table">
-    <!-- Nom Column -->
     <ng-container matColumnDef="nom">
       <th mat-header-cell *matHeaderCellDef>Nom</th>
       <td mat-cell *matCellDef="let a">{{ a.nom }}</td>
     </ng-container>
 
-    <!-- dateDeRendu Column -->
     <ng-container matColumnDef="dateDeRendu">
       <th mat-header-cell *matHeaderCellDef>Date de rendu</th>
       <td mat-cell *matCellDef="let a">{{ a.dateDeRendu | date }}</td>
     </ng-container>
 
-    <!-- rendu Column -->
     <ng-container matColumnDef="rendu">
       <th mat-header-cell *matHeaderCellDef>Rendu</th>
       <td mat-cell *matCellDef="let a">{{ a.rendu }}</td>
@@ -78,10 +103,10 @@
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-  </table>
+  </table> -->
 
 
-  <h1>Version avec ul / li et for</h1>
+  <!-- <h1>Version avec ul / li et for</h1>
   <mat-divider></mat-divider>
   <mat-list>
     @for(a of assignments; track a.nom) {
@@ -100,7 +125,7 @@
     <mat-divider></mat-divider>
     }
   </mat-list>
-</div>
+</div> -->
 
 <!--
 <p>Avec Angular supérieur à la version 17</p>

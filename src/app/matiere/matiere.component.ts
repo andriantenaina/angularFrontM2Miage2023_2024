@@ -1,8 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, NgZone, ViewChild } from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
+import { Matiere } from './matiere.model';
+import { Location } from '@angular/common';
+import { RouterModule } from '@angular/router';
+import { MatiereService } from '../services/matiere.service';
+import {
+  CdkVirtualScrollViewport,
+  ScrollingModule,
+} from '@angular/cdk/scrolling';
+import { filter, map, pairwise, tap, throttleTime } from 'rxjs/operators';
+import { PageEvent,MatPaginatorModule } from '@angular/material/paginator';
+import { FileUploadService } from '../services/file-upload.service';
+import { UsersService } from '../services/user.service';
 
 @Component({
   selector: 'app-matiere',
@@ -14,112 +26,180 @@ import {MatTableModule} from '@angular/material/table';
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
-  imports: [MatTableModule, MatButtonModule, MatIconModule],
+  imports: [MatTableModule, MatButtonModule,RouterModule, MatIconModule,MatPaginatorModule],
   templateUrl: './matiere.component.html',
   styleUrl: './matiere.component.css'
 })
 export class MatiereComponent {
+  @ViewChild('scroller') scroller!: CdkVirtualScrollViewport;
+  
   dataSource = ELEMENT_DATA;
-  columnsToDisplay = ['name', 'weight', 'symbol', 'position'];
+  columnsToDisplay = ['code', 'nom'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
-  expandedElement!: PeriodicElement | null;
+  expandedElement!: Matiere | null;
+
+  page = 1;
+  limit = 10;
+  totalDocs!: number;
+  totalPages!: number;
+  nextPage!: number;
+  prevPage!: number;
+  hasNextPage!: boolean;
+  hasPrevPage!: boolean;
+
+  matieres: Matiere[] = []
+
+  constructor(private matiereService: MatiereService,private imageService: FileUploadService,private userService: UsersService,
+    private ngZone: NgZone) {}
+
+  ngOnInit() {
+    console.log('ngOnInit matiere, appelée AVANT affichage du composant');
+    this.getMatiereFromService();
+  }
+
+  ngAfterViewInit() {
+    console.log(' ----- after view init ----');
+
+    if (!this.scroller) return;
+
+    // on s'abonne à l'évènement scroll du virtual scroller
+    this.scroller
+      .elementScrolled()
+      .pipe(
+        tap(() => {
+          //const dist = this.scroller.measureScrollOffset('bottom');
+          /*console.log(
+            'dans le tap, distance par rapport au bas de la fenêtre = ' + dist
+          );*/
+        }),
+        map((event) => {
+          return this.scroller.measureScrollOffset('bottom');
+        }),
+        pairwise(),
+        filter(([y1, y2]) => {
+          return y2 < y1 && y2 < 100;
+        }),
+        // Pour n'envoyer des requêtes que toutes les 200ms
+        throttleTime(200)
+      )
+      .subscribe(() => {
+        // On ne rentre que si on scrolle vers le bas, que si
+        // la distance de la scrollbar est < 100 pixels et que
+        // toutes les 200 ms
+          console.log('On demande de nouveaux matiere');
+          // on va faire une requête pour demander les matiere suivants
+          // et on va concatener le resultat au tableau des matiere courants
+          console.log('je CHARGE DE NOUVELLES DONNEES page = ' + this.page);
+          this.ngZone.run(() => {
+            if (!this.hasNextPage) return;
+            this.page = this.nextPage;
+            this.getMatiereFromServicePourScrollInfini();
+          });
+      });
+  }
+
+  getMatiereFromService() {
+    // on récupère les matiere depuis le service
+    this.matiereService
+      .getMatieresPagines(this.page, this.limit)
+      .subscribe((data) => {
+        // les données arrivent ici au bout d'un certain temps
+        console.log('Données arrivées');
+        this.matieres = data.docs;
+        this.matieres.forEach(element => {
+          element.image_name = this.imageService.baseUrl+"/download/"+ element.image_name ;
+          this.userService.getUser(element.id_user).subscribe((user)=>{
+            element.user = user;
+          })
+            console.log(element);
+          // this.imageService.getFile(element.image_name).subscribe((dataImage)=>{
+          //   element.image_name = dataImage;
+          // })
+        });
+        this.totalDocs = data.totalDocs;
+        this.totalPages = data.totalPages;
+        this.nextPage = data.nextPage;
+        this.prevPage = data.prevPage;
+        this.hasNextPage = data.hasNextPage;
+        this.hasPrevPage = data.hasPrevPage;
+      });
+    console.log('Requête envoyée');
+  }
+
+  getMatiereFromServicePourScrollInfini() {
+    // on récupère les matiere depuis le service
+    this.matiereService
+      .getMatieresPagines(this.page, this.limit)
+      .subscribe((data) => {
+        // les données arrivent ici au bout d'un certain temps
+
+        console.log('Données arrivées');
+        this.matieres = [...this.matieres, ...data.docs];
+        this.totalDocs = data.totalDocs;
+        this.totalPages = data.totalPages;
+        this.nextPage = data.nextPage;
+        this.prevPage = data.prevPage;
+        this.hasNextPage = data.hasNextPage;
+        this.hasPrevPage = data.hasPrevPage;
+      });
+    console.log('Requête envoyée');
+  }
+
+  // Pour la pagination
+  pagePrecedente() {
+    this.page = this.prevPage;
+    this.getMatiereFromService();
+  }
+  pageSuivante() {
+    this.page = this.nextPage;
+    this.getMatiereFromService();
+  }
+
+  premierePage() {
+    this.page = 1;
+    this.getMatiereFromService();
+  }
+
+  dernierePage() {
+    this.page = this.totalPages;
+    this.getMatiereFromService();
+  }
+
+  // Pour le composant angular material paginator
+  handlePageEvent(event: PageEvent) {
+    this.page = event.pageIndex + 1;
+    this.limit = event.pageSize;
+    this.getMatiereFromService();
+  }
 }
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-  description: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
+// export interface PeriodicElement {
+//   name: string;
+//   position: number;
+//   weight: number;
+//   symbol: string;
+//   description: string;
+// }
+const ELEMENT_DATA: Matiere[] = [
   {
-    position: 1,
-    name: 'Hydrogen',
-    weight: 1.0079,
-    symbol: 'H',
-    description: `Hydrogen is a chemical element with symbol H and atomic number 1. With a standard
-        atomic weight of 1.008, hydrogen is the lightest element on the periodic table.`,
+    code: '001',
+    nom: 'Base de données',
+    description: 'matiere base de donnees',
+    id_user : '1',
+    image_name: location.protocol+"//"+location.host +'/assets/mg.png'
   },
   {
-    position: 2,
-    name: 'Helium',
-    weight: 4.0026,
-    symbol: 'He',
-    description: `Helium is a chemical element with symbol He and atomic number 2. It is a
-        colorless, odorless, tasteless, non-toxic, inert, monatomic gas, the first in the noble gas
-        group in the periodic table. Its boiling point is the lowest among all the elements.`,
+    code: '002',
+    nom: 'Technologies Web',
+    description: 'matiere Technologies Web',
+    id_user : '1',
+    image_name: 'mg.jpeg'
   },
   {
-    position: 3,
-    name: 'Lithium',
-    weight: 6.941,
-    symbol: 'Li',
-    description: `Lithium is a chemical element with symbol Li and atomic number 3. It is a soft,
-        silvery-white alkali metal. Under standard conditions, it is the lightest metal and the
-        lightest solid element.`,
-  },
-  {
-    position: 4,
-    name: 'Beryllium',
-    weight: 9.0122,
-    symbol: 'Be',
-    description: `Beryllium is a chemical element with symbol Be and atomic number 4. It is a
-        relatively rare element in the universe, usually occurring as a product of the spallation of
-        larger atomic nuclei that have collided with cosmic rays.`,
-  },
-  {
-    position: 5,
-    name: 'Boron',
-    weight: 10.811,
-    symbol: 'B',
-    description: `Boron is a chemical element with symbol B and atomic number 5. Produced entirely
-        by cosmic ray spallation and supernovae and not by stellar nucleosynthesis, it is a
-        low-abundance element in the Solar system and in the Earth's crust.`,
-  },
-  {
-    position: 6,
-    name: 'Carbon',
-    weight: 12.0107,
-    symbol: 'C',
-    description: `Carbon is a chemical element with symbol C and atomic number 6. It is nonmetallic
-        and tetravalent—making four electrons available to form covalent chemical bonds. It belongs
-        to group 14 of the periodic table.`,
-  },
-  {
-    position: 7,
-    name: 'Nitrogen',
-    weight: 14.0067,
-    symbol: 'N',
-    description: `Nitrogen is a chemical element with symbol N and atomic number 7. It was first
-        discovered and isolated by Scottish physician Daniel Rutherford in 1772.`,
-  },
-  {
-    position: 8,
-    name: 'Oxygen',
-    weight: 15.9994,
-    symbol: 'O',
-    description: `Oxygen is a chemical element with symbol O and atomic number 8. It is a member of
-         the chalcogen group on the periodic table, a highly reactive nonmetal, and an oxidizing
-         agent that readily forms oxides with most elements as well as with other compounds.`,
-  },
-  {
-    position: 9,
-    name: 'Fluorine',
-    weight: 18.9984,
-    symbol: 'F',
-    description: `Fluorine is a chemical element with symbol F and atomic number 9. It is the
-        lightest halogen and exists as a highly toxic pale yellow diatomic gas at standard
-        conditions.`,
-  },
-  {
-    position: 10,
-    name: 'Neon',
-    weight: 20.1797,
-    symbol: 'Ne',
-    description: `Neon is a chemical element with symbol Ne and atomic number 10. It is a noble gas.
-        Neon is a colorless, odorless, inert monatomic gas under standard conditions, with about
-        two-thirds the density of air.`,
-  },
+    code: '003',
+    nom: 'Grails',
+    description: 'matiere Grails',
+    id_user : '1',
+    image_name: 'mg.jpeg'
+  }
 ];
