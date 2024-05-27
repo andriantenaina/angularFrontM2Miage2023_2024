@@ -8,6 +8,8 @@ import { AuthService } from '../../shared/auth.service';
 import { MatButton } from '@angular/material/button';
 import { FileUploadService } from '../../services/file-upload.service';
 import { HttpResponse } from '@angular/common/http';
+import { MatiereService } from '../../services/matiere.service';
+import { Router } from '@angular/router';
 // import { FileUploadComponent } from '../../components/file-upload/file-upload.component';
 
 @Component({
@@ -22,7 +24,10 @@ nom: any;
 description: any;
 image_file!: File;
 
-constructor(private authService:AuthService,private uploadService:FileUploadService){}
+constructor(private authService:AuthService,
+  private router:Router,
+  private matiereService: MatiereService,
+  private uploadService:FileUploadService){}
 
 selectFile(event: any): void {
   this.image_file = event.target.files.item(0);
@@ -62,9 +67,10 @@ save(event: any){
   matiere.user = this.authService.userlogged;
   // matiere.id_user = this.authService.userlogged._id;
 
-  this.upload();
-
-  console.log(matiere);
+  this.matiereService.addMatiere(matiere).subscribe(()=>{
+    this.upload();
+    this.router.navigate(['/matiere']);
+  })
 }
 
 }

@@ -74,7 +74,7 @@ export class AssignmentsComponent implements OnInit {
 
   ngOnInit() {
     console.log('ngOnInit assignments, appelée AVANT affichage du composant');
-    // this.getAssignmentsFromService();
+    this.getAssignmentsFromService();
   }
 
   ngAfterViewInit() {

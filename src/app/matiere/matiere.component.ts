@@ -47,7 +47,7 @@ export class MatiereComponent {
   hasNextPage!: boolean;
   hasPrevPage!: boolean;
 
-  matieres: Matiere[] = []
+  matieres: Matiere[] = [];
 
   constructor(private matiereService: MatiereService,private imageService: FileUploadService,private userService: UsersService,
     private ngZone: NgZone) {}
@@ -111,7 +111,7 @@ export class MatiereComponent {
           this.userService.getUser(element.id_user).subscribe((user)=>{
             element.user = user;
           })
-            console.log(element);
+            // console.log(element);
           // this.imageService.getFile(element.image_name).subscribe((dataImage)=>{
           //   element.image_name = dataImage;
           // })
@@ -122,6 +122,7 @@ export class MatiereComponent {
         this.prevPage = data.prevPage;
         this.hasNextPage = data.hasNextPage;
         this.hasPrevPage = data.hasPrevPage;
+        console.log(this.matieres);
       });
     console.log('Requête envoyée');
   }
