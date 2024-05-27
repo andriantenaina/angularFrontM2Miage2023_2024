@@ -9,6 +9,14 @@ import {provideNativeDateAdapter} from '@angular/material/core';
 import { Assignment } from '../assignment.model';
 import { AssignmentsService } from '../../shared/assignments.service';
 import { Router } from '@angular/router';
+import { Matiere } from '../../matiere/matiere.model';
+import {MatSelectModule} from '@angular/material/select';
+
+
+// interface Food {
+//   value: string;
+//   viewValue: string;
+// }
 
 @Component({
   selector: 'app-add-assignment',
@@ -16,6 +24,7 @@ import { Router } from '@angular/router';
   providers: [provideNativeDateAdapter()],
   imports: [
     FormsModule,
+    MatSelectModule,
     MatInputModule,
     MatFormFieldModule,
     MatDatepickerModule,
@@ -28,6 +37,25 @@ export class AddAssignmentComponent {
   // champs du formulaire
   nomAssignment = '';
   dateDeRendu = undefined;
+  index_matiere_selected!:number;
+  matiere!:Matiere;
+
+  matieres: Matiere[] = [
+    // {
+    //   nom: 'matiere 1',code:'001',description:'description matiere',image_name:'mg.png'
+    // },
+    // {
+    //   nom: 'matiere 2',code:'002',description:'description matiere 2',image_name:'mg.png'
+    // }
+  ];
+
+  // selectedFood: any;
+
+  selectMatiere(event: Event) {
+    this.matiere = this.matieres[this.index_matiere_selected];
+    // this.index_matiere_selected = (event.target as HTMLSelectElement).value.;
+  }
+
 
   constructor(private assignmentsService: AssignmentsService,
               private router:Router) {}
@@ -42,17 +70,20 @@ export class AddAssignmentComponent {
     nouvelAssignment.nom = this.nomAssignment;
     nouvelAssignment.dateDeRendu = this.dateDeRendu;
     nouvelAssignment.rendu = false;
+    nouvelAssignment.matiere = this.matieres.at(this.index_matiere_selected);
+
+    console.log(nouvelAssignment);
 
     // on utilise le service pour directement ajouter
     // le nouvel assignment dans le tableau
-    this.assignmentsService
-      .addAssignment(nouvelAssignment)
-      .subscribe((reponse) => {
-        console.log(reponse);
-       // On navigue pour afficher la liste des assignments
-       // en utilisant le router de manière programmatique
-        this.router.navigate(['/home']);
-      });
+    // this.assignmentsService
+    //   .addAssignment(nouvelAssignment)
+    //   .subscribe((reponse) => {
+    //     console.log(reponse);
+    //    // On navigue pour afficher la liste des assignments
+    //    // en utilisant le router de manière programmatique
+    //     this.router.navigate(['/home']);
+    //   });
   }
 
 }

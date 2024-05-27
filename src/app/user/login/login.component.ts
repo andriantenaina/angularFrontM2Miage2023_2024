@@ -9,13 +9,13 @@ import {MatInputModule} from '@angular/material/input';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatButtonModule} from '@angular/material/button';
 import { AuthService } from '../../shared/auth.service';
-import { Router,RouterModule } from '@angular/router';
+import { Router,RouterLink,RouterModule } from '@angular/router';
 import { response } from 'express';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule,RouterModule,MatFormFieldModule,MatIconModule,MatTooltipModule,MatButtonModule, MatInputModule,MatCardModule,ReactiveFormsModule],
+  imports: [FormsModule,RouterLink,RouterModule,MatFormFieldModule,MatIconModule,MatTooltipModule,MatButtonModule, MatInputModule,MatCardModule,ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })

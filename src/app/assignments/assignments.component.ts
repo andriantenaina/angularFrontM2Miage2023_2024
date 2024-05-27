@@ -19,6 +19,8 @@ import { AddAssignmentComponent } from './add-assignment/add-assignment.componen
 import { AssignmentsService } from '../shared/assignments.service';
 import { RouterLink } from '@angular/router';
 import { filter, map, pairwise, tap, throttleTime } from 'rxjs/operators';
+import {MatCardModule} from '@angular/material/card'
+
 @Component({
   selector: 'app-assignments',
   standalone: true,
@@ -26,6 +28,7 @@ import { filter, map, pairwise, tap, throttleTime } from 'rxjs/operators';
   templateUrl: './assignments.component.html',
   styleUrl: './assignments.component.css',
   imports: [
+    MatCardModule,
     CommonModule,
     FormsModule,
     ScrollingModule,
@@ -56,7 +59,7 @@ export class AssignmentsComponent implements OnInit {
   // tableau des assignments POUR AFFICHAGE
   displayedColumns: string[] = ['nom', 'dateDeRendu', 'rendu'];
 
-  assignments: Assignment[] = [];
+  assignments: Assignment[] = ELEMENT_DATA;
 
   // pour virtual scroll infini
   @ViewChild('scroller') scroller!: CdkVirtualScrollViewport;
@@ -178,3 +181,24 @@ export class AssignmentsComponent implements OnInit {
     this.getAssignmentsFromService();
   }
 }
+
+const ELEMENT_DATA: Assignment[] = [
+  {
+    nom: 'Devoire sur la methode agile',
+    dateDeRendu: new Date("2024-02-02"),
+    rendu: true,
+    id_user : '1',
+    id_matiere: '1',
+    note : 12,
+    remarque : 'tres bien'
+  },
+  {
+    nom: 'Devoire de Geographie(japon)',
+    dateDeRendu: new Date("2024-02-02"),
+    rendu: true,
+    id_user : '1',
+    id_matiere: '1',
+    note : 12,
+    remarque : 'tres bien'
+  }
+];

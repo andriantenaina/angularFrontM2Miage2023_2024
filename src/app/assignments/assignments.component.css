@@ -41,3 +41,25 @@ table, tr, td {
 .example-item {
   height: 50px;
 }
+
+.example-card {
+  float: left;
+  width: 400px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+}
+
+.example-header-image {
+  /* background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg'); */
+  background-size: cover;
+}
+
+.mat-mdc-card-header{
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row-reverse;
+}
+
+.mat-mdc-card-avatar{
+  margin-bottom: 0px;
+}
