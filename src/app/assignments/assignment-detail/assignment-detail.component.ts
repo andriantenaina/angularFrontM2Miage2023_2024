@@ -9,6 +9,11 @@ import { Assignment } from '../assignment.model';
 import { AssignmentsService } from '../../shared/assignments.service';
 import  {RouterLink} from '@angular/router';
 import { AuthService } from '../../shared/auth.service';
+import { MatiereService } from '../../services/matiere.service';
+import { UsersService } from '../../services/user.service';
+import { FileUploadService } from '../../services/file-upload.service';
+import { User } from '../../user/user.model';
+import { Auth } from '../../user/auth.model';
 @Component({
   selector: 'app-assignment-detail',
   standalone: true,
@@ -23,6 +28,9 @@ export class AssignmentDetailComponent implements OnInit {
   constructor(private assignmentsService:AssignmentsService,
               private authService:AuthService,
               private route:ActivatedRoute,
+              private matiereService:MatiereService,
+              private userService:UsersService,
+              private imageService:FileUploadService,
               private router:Router) { }
 
   ngOnInit() {
@@ -36,7 +44,21 @@ export class AssignmentDetailComponent implements OnInit {
     // On utilise le service pour récupérer l'assignment avec cet id
     this.assignmentsService.getAssignment(id)
     .subscribe(assignment => {
-      this.assignmentTransmis = assignment;
+      if(assignment){
+        this.matiereService.getMatiere(assignment.id_matiere).subscribe((matiere)=>{
+          if(matiere){
+            this.userService.getUser(matiere.id_user).subscribe((user)=>{
+              if(user){
+                matiere.user = user;
+              } 
+            });
+            matiere.image_name = this.imageService.baseUrl+"/download/"+ matiere.image_name;
+            assignment.matiere = matiere;
+          }
+        })
+        console.log(assignment);
+        this.assignmentTransmis = assignment;
+      }
     });
   }
 
@@ -68,6 +90,23 @@ export class AssignmentDetailComponent implements OnInit {
   }
 
   isAdmin() {
-    return this.authService.loggedIn;
+    // let result = false
+    let localToken = localStorage.getItem('token')
+    let user!: User;
+    if(localToken){
+      let auth = new Auth();
+      auth.auth =true;
+      auth.token = localToken;
+      this.authService.verifyToken(auth).subscribe((user)=>{
+        user = user;
+      })
+    }
+    console.log(user);
+    // return
+    if(user && user.status == 'admin'){
+      return true;
+    }
+    return false;
+    // return this.authService.loggedIn;
   }
 }

@@ -17,7 +17,11 @@
             <mat-card-subtitle>prof {{a.matiere?.user?.name}}</mat-card-subtitle>
         </div>
         <div>
-          <mat-card-title>{{a.nom}}</mat-card-title>
+          <mat-card-title>
+            <a routerLink="/assignment/{{ a._id }}">
+              {{a.nom}}
+          </a>
+        </mat-card-title>
           <mat-card-subtitle>{{a.dateDeRendu | date : "dd/MM/yyyy"}}</mat-card-subtitle>
         </div>
         <div>

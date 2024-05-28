@@ -1,12 +1,12 @@
 <h1>Ajout d'un assignment</h1>
 <form ngForm #assignmentForm (submit)="onSubmit($event); assignmentForm.reset()" class="form">
   <mat-form-field>
-    <input matInput placeholder="Nom" required [(ngModel)]="nomAssignment" name="nom" />
+    <input matInput placeholder="Nom" required [(ngModel)]="nomAssignment" name="nom" required/>
   </mat-form-field>
 
   <mat-form-field>
     <mat-label>Date de rendu</mat-label>
-    <input matInput [matDatepicker]="picker" [(ngModel)]="dateDeRendu" name="date" />
+    <input matInput [matDatepicker]="picker" [(ngModel)]="dateDeRendu" name="date" required/>
     <mat-hint>dd/MM/YYYY</mat-hint>
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
@@ -14,7 +14,7 @@
 
   <mat-form-field>
     <mat-label>Matiere</mat-label>
-    <mat-select [(value)]="index_matiere_selected">
+    <mat-select [(value)]="index_matiere_selected" required>
       <mat-option></mat-option>
       @for (option of matieres; track option; let index = $index) {
         <mat-option [value]="index">{{ option.nom }}</mat-option>

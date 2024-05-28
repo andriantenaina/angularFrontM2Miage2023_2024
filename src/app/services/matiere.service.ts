@@ -18,7 +18,7 @@ export class MatiereService {
   // uri = "https://angularmbdsmadagascar2024.onrender.com/api/matieres";
 
   // retourne tous les matieres
-  getMatieres():Observable<Matiere[]> {
+  getMatieres():Observable<any> {
     return this.http.get<Matiere[]>(this.uri);
   }
 

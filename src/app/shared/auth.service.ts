@@ -27,12 +27,17 @@ export class AuthService {
     this.logService.log(user.email, "connection");
     //return of("Assignment ajouté avec succès");
     this.loggedIn = true;
-    return this.http.post<Auth>(this.uri+"/login", user);
+    let result = this.http.post<Auth>(this.uri+"/login", user);
+    result.subscribe((data)=>{
+      localStorage.setItem('token',data.token);
+    })
+    return result;
   }
 
   // méthode pour déconnecter l'utilisateur
   logOut() {
     this.loggedIn = false;
+    localStorage.removeItem('token');
   }
 
   verifyToken(auth: Auth){
@@ -49,16 +54,25 @@ export class AuthService {
   // this.authService.isAdmin().then(....) ou
   // admin = await this.authService.isAdmin()
   isAdmin() {
+    let localToken = localStorage.getItem('token')
+    let user!: User;
+    if(localToken){
+      let auth = new Auth();
+      auth.auth =true;
+      auth.token = localToken;
+      this.verifyToken(auth).subscribe((user)=>{
+        user = user;
+      })
+    }
     const promesse = new Promise((resolve, reject) => {
       // ici accès BD? Web Service ? etc...
-      if(this.userlogged.status == "admin"){
+      if(user.status == "admin"){
         resolve(true);
       }else{
         resolve(false);
       }
       // pas de cas d'erreur ici, donc pas de reject
     });
-
     return promesse;
   }
 }
