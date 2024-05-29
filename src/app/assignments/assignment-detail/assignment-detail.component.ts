@@ -34,18 +34,6 @@ export class AssignmentDetailComponent implements OnInit {
               private router:Router) { }
 
   ngOnInit() {
-
-    let localToken = localStorage.getItem('token')
-    if(localToken){
-      let auth = new Auth();
-      auth.auth =true;
-      auth.token = localToken;
-      this.authService.verifyToken(auth).subscribe((userfrombase)=>{
-        this.user = userfrombase;
-      })
-    }
-
-
     // Recuperation des query params (ce qui suit le ? dans l'url)
     console.log(this.route.snapshot.queryParams);
     // Recuperation des fragment (ce qui suit le # dans l'url)
