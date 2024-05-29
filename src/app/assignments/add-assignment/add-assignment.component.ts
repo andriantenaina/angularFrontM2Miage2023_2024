@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormControl,FormBuilder, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -13,6 +13,7 @@ import { Matiere } from '../../matiere/matiere.model';
 import {MatSelectModule} from '@angular/material/select';
 import { MatiereService } from '../../services/matiere.service';
 import { AuthService } from '../../shared/auth.service';
+import {MatStepperModule} from '@angular/material/stepper';
 
 
 // interface Food {
@@ -26,16 +27,28 @@ import { AuthService } from '../../shared/auth.service';
   providers: [provideNativeDateAdapter()],
   imports: [
     FormsModule,
+    MatStepperModule,
     MatSelectModule,
     MatInputModule,
     MatFormFieldModule,
     MatDatepickerModule,
+    ReactiveFormsModule,
     MatButtonModule,
   ],
   templateUrl: './add-assignment.component.html',
   styleUrl: './add-assignment.component.css',
 })
 export class AddAssignmentComponent implements OnInit {
+  firstFormGroup = this._formBuilder.group({
+    firstCtrl: ['', Validators.required],
+  });
+  secondFormGroup = this._formBuilder.group({
+    secondCtrl: ['', Validators.required],
+  });
+  therdFormGroup = this._formBuilder.group({
+    therdCtrl: ['', Validators.required],
+  });
+  
   // champs du formulaire
   nomAssignment = '';
   dateDeRendu = undefined;
@@ -61,6 +74,7 @@ export class AddAssignmentComponent implements OnInit {
 
   constructor(private assignmentsService: AssignmentsService,private matiereService: MatiereService,
     private authService: AuthService,
+    private _formBuilder: FormBuilder,
               private router:Router) {}
 
 

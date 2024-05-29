@@ -17,12 +17,12 @@
       <mat-select [(value)]="id_matiere" required>
         <mat-option></mat-option>
         @for (option of matieres; track option;) {
-          @if(assignment.id_matiere == option._id){
-            <mat-option [value]="option._id" selected>{{ option.nom }}</mat-option>
-          }
-          @else {
+          <!-- @if(assignment.id_matiere == option._id){ -->
             <mat-option [value]="option._id">{{ option.nom }}</mat-option>
-          }
+          <!-- } -->
+          <!-- @else {
+            <mat-option [value]="option._id">{{ option.nom }}</mat-option>
+          } -->
         }
       </mat-select>
     </mat-form-field>

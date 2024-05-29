@@ -16,7 +16,7 @@ export class AuthService {
   // propriété pour savoir si l'utilisateur est connecté
   loggedIn = false;
   token = undefined;
-  userlogged!:User;
+  userlogged!:User | undefined;
 
   // méthode pour connecter l'utilisateur
   // Typiquement, il faudrait qu'elle accepte en paramètres
@@ -30,6 +30,9 @@ export class AuthService {
     let result = this.http.post<Auth>(this.uri+"/login", user);
     result.subscribe((data)=>{
       localStorage.setItem('token',data.token);
+      this.verifyToken(data).subscribe((user)=>{
+        this.userlogged = user;
+      })
     })
     return result;
   }
@@ -37,6 +40,7 @@ export class AuthService {
   // méthode pour déconnecter l'utilisateur
   logOut() {
     this.loggedIn = false;
+    this.userlogged = undefined;
     localStorage.removeItem('token');
   }
 
@@ -54,19 +58,19 @@ export class AuthService {
   // this.authService.isAdmin().then(....) ou
   // admin = await this.authService.isAdmin()
   isAdmin() {
-    let localToken = localStorage.getItem('token')
-    let user!: User;
-    if(localToken){
-      let auth = new Auth();
-      auth.auth =true;
-      auth.token = localToken;
-      this.verifyToken(auth).subscribe((user)=>{
-        user = user;
-      })
-    }
+    // let localToken = localStorage.getItem('token')
+    // let user!: User;
+    // if(localToken){
+    //   let auth = new Auth();
+    //   auth.auth =true;
+    //   auth.token = localToken;
+    //   this.verifyToken(auth).subscribe((user)=>{
+    //     user = user;
+    //   })
+    // }
     const promesse = new Promise((resolve, reject) => {
       // ici accès BD? Web Service ? etc...
-      if(user.status == "admin"){
+      if(this.userlogged?.status == "admin"){
         resolve(true);
       }else{
         resolve(false);

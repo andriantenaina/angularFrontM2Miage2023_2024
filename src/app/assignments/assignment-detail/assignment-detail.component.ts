@@ -24,7 +24,7 @@ import { Auth } from '../../user/auth.model';
 })
 export class AssignmentDetailComponent implements OnInit {
   assignmentTransmis!: Assignment|undefined;
-
+  user!:User;
   constructor(private assignmentsService:AssignmentsService,
               private authService:AuthService,
               private route:ActivatedRoute,
@@ -34,6 +34,18 @@ export class AssignmentDetailComponent implements OnInit {
               private router:Router) { }
 
   ngOnInit() {
+
+    let localToken = localStorage.getItem('token')
+    if(localToken){
+      let auth = new Auth();
+      auth.auth =true;
+      auth.token = localToken;
+      this.authService.verifyToken(auth).subscribe((userfrombase)=>{
+        this.user = userfrombase;
+      })
+    }
+
+
     // Recuperation des query params (ce qui suit le ? dans l'url)
     console.log(this.route.snapshot.queryParams);
     // Recuperation des fragment (ce qui suit le # dans l'url)
@@ -91,19 +103,29 @@ export class AssignmentDetailComponent implements OnInit {
 
   isAdmin() {
     // let result = false
-    let localToken = localStorage.getItem('token')
-    let user!: User;
-    if(localToken){
-      let auth = new Auth();
-      auth.auth =true;
-      auth.token = localToken;
-      this.authService.verifyToken(auth).subscribe((user)=>{
-        user = user;
-      })
-    }
-    console.log(user);
+    // let localToken = localStorage.getItem('token')
+    // let user!: User;
+    // if(localToken){
+    //   let auth = new Auth();
+    //   auth.auth =true;
+    //   auth.token = localToken;
+    //   this.authService.verifyToken(auth).subscribe((user)=>{
+    //     user = user;
+    //   })
+    // }
+    // console.log(user);
     // return
-    if(user && user.status == 'admin'){
+    // return this.authService.isAdmin()
+    // .then(admin => {
+    //     if (admin) {
+    //       return true;
+    //     } else {
+    //       return false;
+    //     }
+    //   }
+    // );
+
+    if(this.authService.userlogged?.status == 'admin'){
       return true;
     }
     return false;

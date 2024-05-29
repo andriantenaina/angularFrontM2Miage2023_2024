@@ -32,7 +32,7 @@ export class EditAssignmentComponent implements OnInit {
   matieres : Matiere[] = [];
   // Pour les champs de formulaire
   nomAssignment = '';
-  id_matiere = undefined;
+  id_matiere = '';
   dateDeRendu?: Date = undefined;
 
   constructor(
@@ -52,6 +52,7 @@ export class EditAssignmentComponent implements OnInit {
       if (assignment !== undefined) {
         this.nomAssignment = assignment.nom;
         this.dateDeRendu = assignment.dateDeRendu;
+        this.id_matiere = assignment.id_matiere;
         this.matiereService.getMatiere(assignment.id_matiere).subscribe((matiere)=>{
           if(matiere){
             assignment.matiere = matiere;
@@ -71,6 +72,7 @@ export class EditAssignmentComponent implements OnInit {
     // on récupère les valeurs dans le formulaire
     this.assignment.nom = this.nomAssignment;
     this.assignment.dateDeRendu = this.dateDeRendu;
+    this.assignment.id_matiere = this.id_matiere;
     this.assignmentsService
       .updateAssignment(this.assignment)
       .subscribe((message) => {
