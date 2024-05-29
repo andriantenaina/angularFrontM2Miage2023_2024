@@ -62,7 +62,7 @@ export class AssignmentsComponent implements OnInit {
   // tableau des assignments POUR AFFICHAGE
   displayedColumns: string[] = ['nom', 'dateDeRendu', 'rendu'];
 
-  assignments: Assignment[] = ELEMENT_DATA;
+  assignments: Assignment[] = [];
 
   // pour virtual scroll infini
   @ViewChild('scroller') scroller!: CdkVirtualScrollViewport;
@@ -145,7 +145,12 @@ export class AssignmentsComponent implements OnInit {
                   matiere.user = user;
                 } 
               });
-              matiere.image_name = this.imageService.baseUrl+"/download/"+ matiere.image_name;
+              if(matiere.image_name.includes("http")){
+                matiere.image_name = matiere.image_name;
+              }
+              else{
+                matiere.image_name = this.imageService.baseUrl+"/download/"+ matiere.image_name;
+              }
               element.matiere = matiere;
             }
           })

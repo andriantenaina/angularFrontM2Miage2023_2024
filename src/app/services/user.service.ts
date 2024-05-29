@@ -17,7 +17,7 @@ export class UsersService {
   constructor(private logService:LoggingService,
               private http:HttpClient) { }
 
-  uri = 'http://localhost:8010/api/users';
+  uri = 'https://assignementback.onrender.com/api/users';
   // uri = "https://angularmbdsmadagascar2024.onrender.com/api/users";
 
   // retourne tous les users
