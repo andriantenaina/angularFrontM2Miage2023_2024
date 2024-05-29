@@ -11,7 +11,7 @@ export class AuthService {
   constructor(private logService:LoggingService,
     private http:HttpClient) { }
 
-  uri = 'http://localhost:8010/api/auth';
+  uri = 'https://assignementback.onrender.com/api/auth';
 
   // propriété pour savoir si l'utilisateur est connecté
   loggedIn = false;

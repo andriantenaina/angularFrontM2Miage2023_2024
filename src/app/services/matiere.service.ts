@@ -14,7 +14,7 @@ export class MatiereService {
   constructor(private logService:LoggingService,
               private http:HttpClient) { }
 
-  uri = 'http://localhost:8010/api/matieres';
+  uri = 'https://assignementback.onrender.com/api/matieres';
   // uri = "https://angularmbdsmadagascar2024.onrender.com/api/matieres";
 
   // retourne tous les matieres

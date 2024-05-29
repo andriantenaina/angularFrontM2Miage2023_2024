@@ -7,4 +7,5 @@ export class User {
   status!: string;
   rendu!: boolean;
   password!: string;
+  image_profile?: string;
 }
