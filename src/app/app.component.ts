@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,6 +14,8 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatListModule} from '@angular/material/list';
+import { User } from './user/user.model';
+import { Auth } from './user/auth.model';
 
 @Component({
     selector: 'app-root',
@@ -24,12 +26,29 @@ import {MatListModule} from '@angular/material/list';
         MatIconModule, MatSlideToggleModule,MatToolbarModule,MatSelectModule,MatFormFieldModule,MatSidenavModule,MatListModule,
         AssignmentsComponent, RegisterComponent]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Application de gestion des assignments';
 
   constructor(private authService:AuthService,
               private assignmentsService: AssignmentsService,
               private router:Router) {}
+
+              
+  ngOnInit(): void {
+    let localToken = localStorage.getItem('token')
+    let user!: User;
+    if(localToken){
+      let auth = new Auth();
+      auth.auth =true;
+      auth.token = localToken;
+      this.authService.verifyToken(auth).subscribe((user)=>{
+        this.authService.userlogged = user;
+      })
+    }
+    else{
+      this.router.navigate(['/login']);
+    }
+  }
 
   // login() {
   //   // on utilise le service d'autentification

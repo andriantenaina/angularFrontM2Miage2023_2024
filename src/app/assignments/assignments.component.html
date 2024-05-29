@@ -14,10 +14,14 @@
         <div>
           <img mat-card-avatar class="example-header-image"
             src="https://material.angular.io/assets/img/examples/shiba1.jpg">
-            <mat-card-subtitle>prof </mat-card-subtitle>
+            <mat-card-subtitle>prof {{a.matiere?.user?.name}}</mat-card-subtitle>
         </div>
         <div>
-          <mat-card-title>{{a.nom}}</mat-card-title>
+          <mat-card-title>
+            <a routerLink="/assignment/{{ a._id }}">
+              {{a.nom}}
+          </a>
+        </mat-card-title>
           <mat-card-subtitle>{{a.dateDeRendu | date : "dd/MM/yyyy"}}</mat-card-subtitle>
         </div>
         <div>
@@ -27,7 +31,7 @@
         <!-- </mat-card-title-group> -->
       </mat-card-header>
       <mat-card-content>
-        {{a.id_user}}
+        {{a.user?.name}}
       </mat-card-content>
     </mat-card>
     }
