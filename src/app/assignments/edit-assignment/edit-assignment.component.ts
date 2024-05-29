@@ -8,6 +8,9 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { Assignment } from '../assignment.model';
 import { AssignmentsService } from '../../shared/assignments.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatiereService } from '../../services/matiere.service';
+import { Matiere } from '../../matiere/matiere.model';
+import {MatSelectModule} from '@angular/material/select';
 
 @Component({
   selector: 'app-edit-assignment',
@@ -15,6 +18,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   providers: [provideNativeDateAdapter()],
   imports: [
     FormsModule,
+    MatSelectModule,
     MatInputModule,
     MatFormFieldModule,
     MatDatepickerModule,
@@ -25,12 +29,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class EditAssignmentComponent implements OnInit {
   assignment: Assignment | undefined;
+  matieres : Matiere[] = [];
   // Pour les champs de formulaire
   nomAssignment = '';
+  id_matiere = '';
   dateDeRendu?: Date = undefined;
 
   constructor(
     private assignmentsService: AssignmentsService,
+    private matiereService:MatiereService,
     private router: Router,
     private route: ActivatedRoute
   ) {}
@@ -45,8 +52,17 @@ export class EditAssignmentComponent implements OnInit {
       if (assignment !== undefined) {
         this.nomAssignment = assignment.nom;
         this.dateDeRendu = assignment.dateDeRendu;
+        this.id_matiere = assignment.id_matiere;
+        this.matiereService.getMatiere(assignment.id_matiere).subscribe((matiere)=>{
+          if(matiere){
+            assignment.matiere = matiere;
+          }
+        })
       }
     });
+    this.matiereService.getMatieres().subscribe((data)=>{
+      this.matieres = data.docs;
+    })
   }
 
   onSaveAssignment() {
@@ -56,6 +72,7 @@ export class EditAssignmentComponent implements OnInit {
     // on récupère les valeurs dans le formulaire
     this.assignment.nom = this.nomAssignment;
     this.assignment.dateDeRendu = this.dateDeRendu;
+    this.assignment.id_matiere = this.id_matiere;
     this.assignmentsService
       .updateAssignment(this.assignment)
       .subscribe((message) => {

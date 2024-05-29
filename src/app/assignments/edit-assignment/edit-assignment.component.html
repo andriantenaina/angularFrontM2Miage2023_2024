@@ -11,6 +11,22 @@
       </mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Matiere</mat-label>
+      <mat-select [(value)]="id_matiere" required>
+        <mat-option></mat-option>
+        @for (option of matieres; track option;) {
+          <!-- @if(assignment.id_matiere == option._id){ -->
+            <mat-option [value]="option._id">{{ option.nom }}</mat-option>
+          <!-- } -->
+          <!-- @else {
+            <mat-option [value]="option._id">{{ option.nom }}</mat-option>
+          } -->
+        }
+      </mat-select>
+    </mat-form-field>
+
     <button mat-raised-button color="primary" [disabled]="((!nomAssignment)||(!dateDeRendu))">
       Sauver
     </button>

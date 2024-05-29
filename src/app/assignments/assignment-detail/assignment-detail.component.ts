@@ -9,6 +9,11 @@ import { Assignment } from '../assignment.model';
 import { AssignmentsService } from '../../shared/assignments.service';
 import  {RouterLink} from '@angular/router';
 import { AuthService } from '../../shared/auth.service';
+import { MatiereService } from '../../services/matiere.service';
+import { UsersService } from '../../services/user.service';
+import { FileUploadService } from '../../services/file-upload.service';
+import { User } from '../../user/user.model';
+import { Auth } from '../../user/auth.model';
 @Component({
   selector: 'app-assignment-detail',
   standalone: true,
@@ -19,13 +24,28 @@ import { AuthService } from '../../shared/auth.service';
 })
 export class AssignmentDetailComponent implements OnInit {
   assignmentTransmis!: Assignment|undefined;
-
+  user!:User;
   constructor(private assignmentsService:AssignmentsService,
               private authService:AuthService,
               private route:ActivatedRoute,
+              private matiereService:MatiereService,
+              private userService:UsersService,
+              private imageService:FileUploadService,
               private router:Router) { }
 
   ngOnInit() {
+
+    let localToken = localStorage.getItem('token')
+    if(localToken){
+      let auth = new Auth();
+      auth.auth =true;
+      auth.token = localToken;
+      this.authService.verifyToken(auth).subscribe((userfrombase)=>{
+        this.user = userfrombase;
+      })
+    }
+
+
     // Recuperation des query params (ce qui suit le ? dans l'url)
     console.log(this.route.snapshot.queryParams);
     // Recuperation des fragment (ce qui suit le # dans l'url)
@@ -36,7 +56,21 @@ export class AssignmentDetailComponent implements OnInit {
     // On utilise le service pour récupérer l'assignment avec cet id
     this.assignmentsService.getAssignment(id)
     .subscribe(assignment => {
-      this.assignmentTransmis = assignment;
+      if(assignment){
+        this.matiereService.getMatiere(assignment.id_matiere).subscribe((matiere)=>{
+          if(matiere){
+            this.userService.getUser(matiere.id_user).subscribe((user)=>{
+              if(user){
+                matiere.user = user;
+              } 
+            });
+            matiere.image_name = this.imageService.baseUrl+"/download/"+ matiere.image_name;
+            assignment.matiere = matiere;
+          }
+        })
+        console.log(assignment);
+        this.assignmentTransmis = assignment;
+      }
     });
   }
 
@@ -68,6 +102,33 @@ export class AssignmentDetailComponent implements OnInit {
   }
 
   isAdmin() {
-    return this.authService.loggedIn;
+    // let result = false
+    // let localToken = localStorage.getItem('token')
+    // let user!: User;
+    // if(localToken){
+    //   let auth = new Auth();
+    //   auth.auth =true;
+    //   auth.token = localToken;
+    //   this.authService.verifyToken(auth).subscribe((user)=>{
+    //     user = user;
+    //   })
+    // }
+    // console.log(user);
+    // return
+    // return this.authService.isAdmin()
+    // .then(admin => {
+    //     if (admin) {
+    //       return true;
+    //     } else {
+    //       return false;
+    //     }
+    //   }
+    // );
+
+    if(this.authService.userlogged?.status == 'admin'){
+      return true;
+    }
+    return false;
+    // return this.authService.loggedIn;
   }
 }

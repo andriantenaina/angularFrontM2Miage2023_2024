@@ -20,6 +20,9 @@ import { AssignmentsService } from '../shared/assignments.service';
 import { RouterLink } from '@angular/router';
 import { filter, map, pairwise, tap, throttleTime } from 'rxjs/operators';
 import {MatCardModule} from '@angular/material/card'
+import { UsersService } from '../services/user.service';
+import { MatiereService } from '../services/matiere.service';
+import { FileUploadService } from '../services/file-upload.service';
 
 @Component({
   selector: 'app-assignments',
@@ -66,6 +69,8 @@ export class AssignmentsComponent implements OnInit {
 
   // ici on injecte le service
   constructor(private assignmentsService: AssignmentsService,
+    private userService: UsersService,private matiereService: MatiereService,
+    private imageService: FileUploadService,
     private ngZone: NgZone) {}
 
   getColor(a: any) {
@@ -126,6 +131,25 @@ export class AssignmentsComponent implements OnInit {
         // les données arrivent ici au bout d'un certain temps
         console.log('Données arrivées');
         this.assignments = data.docs;
+        this.assignments.forEach(element => {
+          this.userService.getUser(element.id_user).subscribe((user)=>{
+            if(user){
+              element.user = user;
+            } 
+          });
+          this.matiereService.getMatiere(element.id_matiere).subscribe((matiere)=>{
+            console.log(matiere);
+            if(matiere){
+              this.userService.getUser(matiere.id_user).subscribe((user)=>{
+                if(user){
+                  matiere.user = user;
+                } 
+              });
+              matiere.image_name = this.imageService.baseUrl+"/download/"+ matiere.image_name;
+              element.matiere = matiere;
+            }
+          })
+        });
         this.totalDocs = data.totalDocs;
         this.totalPages = data.totalPages;
         this.nextPage = data.nextPage;
