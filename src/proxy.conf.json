@@ -1,0 +1,13 @@
+{
+    "/api": {
+      "target": "http://localhost:4200/",
+      "changeOrigin": false,
+      "secure": false,
+      "pathRewrite": {
+        "^/api": ""
+      },
+      "script": {
+        "start:proxy":"ng serve --proxy-config proxy.conf.json"
+      }
+    }
+  }
