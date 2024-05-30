@@ -43,6 +43,7 @@
       </mat-card-header>
       <mat-card-content>
         {{a.user?.name}}
+        <p><mat-slide-toggle (click)="openDialog(a)">Rendre</mat-slide-toggle></p>
       </mat-card-content>
     </mat-card>
     }

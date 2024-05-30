@@ -57,20 +57,52 @@ export class AuthService {
   // si on l'utilisait à la main dans un composant, on ferait:
   // this.authService.isAdmin().then(....) ou
   // admin = await this.authService.isAdmin()
+
+  isAllowed(role:String[]){
+    console.log(role);
+    const promesse = new Promise((resolve, reject) => {
+      // ici accès BD? Web Service ? etc...
+
+      if(this.userlogged?.status && role.includes(this.userlogged?.status)){
+        resolve(true);
+      }else{
+        resolve(false);
+      }
+      // pas de cas d'erreur ici, donc pas de reject
+    });
+    return promesse;
+  }
+
   isAdmin() {
-    // let localToken = localStorage.getItem('token')
-    // let user!: User;
-    // if(localToken){
-    //   let auth = new Auth();
-    //   auth.auth =true;
-    //   auth.token = localToken;
-    //   this.verifyToken(auth).subscribe((user)=>{
-    //     user = user;
-    //   })
-    // }
     const promesse = new Promise((resolve, reject) => {
       // ici accès BD? Web Service ? etc...
       if(this.userlogged?.status == "admin"){
+        resolve(true);
+      }else{
+        resolve(false);
+      }
+      // pas de cas d'erreur ici, donc pas de reject
+    });
+    return promesse;
+  }
+
+  isStudent(){
+    const promesse = new Promise((resolve, reject) => {
+      // ici accès BD? Web Service ? etc...
+      if(this.userlogged?.status == "student"){
+        resolve(true);
+      }else{
+        resolve(false);
+      }
+      // pas de cas d'erreur ici, donc pas de reject
+    });
+    return promesse;
+  }
+
+  isProf(){
+    const promesse = new Promise((resolve, reject) => {
+      // ici accès BD? Web Service ? etc...
+      if(this.userlogged?.status == "prof"){
         resolve(true);
       }else{
         resolve(false);

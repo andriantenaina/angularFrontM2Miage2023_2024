@@ -34,6 +34,7 @@ export class EditAssignmentComponent implements OnInit {
   nomAssignment = '';
   id_matiere = '';
   dateDeRendu?: Date = undefined;
+  remarque? = '';
 
   constructor(
     private assignmentsService: AssignmentsService,
@@ -53,6 +54,7 @@ export class EditAssignmentComponent implements OnInit {
         this.nomAssignment = assignment.nom;
         this.dateDeRendu = assignment.dateDeRendu;
         this.id_matiere = assignment.id_matiere;
+        this.remarque = assignment.remarque;
         this.matiereService.getMatiere(assignment.id_matiere).subscribe((matiere)=>{
           if(matiere){
             assignment.matiere = matiere;
@@ -73,6 +75,7 @@ export class EditAssignmentComponent implements OnInit {
     this.assignment.nom = this.nomAssignment;
     this.assignment.dateDeRendu = this.dateDeRendu;
     this.assignment.id_matiere = this.id_matiere;
+    this.assignment.remarque = this.remarque;
     this.assignmentsService
       .updateAssignment(this.assignment)
       .subscribe((message) => {

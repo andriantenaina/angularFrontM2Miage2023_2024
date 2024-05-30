@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>ajout Note Assignment</h2>
+<mat-dialog-content>
+  <p>{{assignment.nom}}</p>
+  <mat-form-field>
+    <mat-label>note</mat-label>
+    <input matInput type="number" [(ngModel)]="note">
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onClick()">Ajouter</button>
+  <!-- <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button> -->
+</mat-dialog-actions>

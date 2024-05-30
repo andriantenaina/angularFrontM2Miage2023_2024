@@ -27,6 +27,10 @@
       </mat-select>
     </mat-form-field>
 
+    <mat-form-field>
+      <input matInput placeholder="remarque"[(ngModel)]="remarque" name="remarque">
+    </mat-form-field>
+
     <button mat-raised-button color="primary" [disabled]="((!nomAssignment)||(!dateDeRendu))">
       Sauver
     </button>
