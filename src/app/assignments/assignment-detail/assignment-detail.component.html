@@ -19,13 +19,13 @@
       Note : {{assignmentTransmis.note}}
     </div>
     <div>  
-      Prof : {{assignmentTransmis.remarque}}
+      Remarque : {{assignmentTransmis.remarque}}
     </div>
   </mat-card-content>
   <mat-card-actions class="container">
-    @if(!assignmentTransmis.rendu && assignmentTransmis.note != undefined ) {
-    <mat-checkbox (click)="onAssignmentRendu()">Rendu</mat-checkbox>
-    }
+    <!-- @if(!assignmentTransmis.rendu) { -->
+    <mat-checkbox [checked]="assignmentTransmis.rendu" (change)="onAssignmentRendu()">Rendu</mat-checkbox>
+    <!-- } -->
     <button mat-raised-button color="warn" (click)="onDelete()"
             [disabled]="!isAdmin()"
     >

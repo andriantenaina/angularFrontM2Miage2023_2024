@@ -9,6 +9,7 @@ import { RegisterComponent } from './user/register/register.component';
 import { DetailsComponent } from './user/details/details.component';
 import { MatiereComponent } from './matiere/matiere.component';
 import { AddMatiereComponent } from './matiere/add-matiere/add-matiere.component';
+import { profGuard } from './shared/prof.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -19,10 +20,19 @@ export const routes: Routes = [
     path: 'assignment/:id/edit',
     component: EditAssignmentComponent,
     canActivate: [authGuard],
+    data : {
+      role : ['prof','admin']
+    }
   },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'details', component: DetailsComponent },
   { path: 'matiere', component: MatiereComponent },
-  { path: 'matiere/add', component: AddMatiereComponent },
+  { 
+    path: 'matiere/add', component: AddMatiereComponent, 
+    canActivate:[authGuard],
+    data : {
+      role : ['admin']
+    }
+  },
 ];

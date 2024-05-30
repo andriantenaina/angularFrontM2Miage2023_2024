@@ -7,13 +7,15 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { Assignment } from '../assignment.model';
 import { AssignmentsService } from '../../shared/assignments.service';
-import  {RouterLink} from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { AuthService } from '../../shared/auth.service';
 import { MatiereService } from '../../services/matiere.service';
 import { UsersService } from '../../services/user.service';
 import { FileUploadService } from '../../services/file-upload.service';
 import { User } from '../../user/user.model';
 import { Auth } from '../../user/auth.model';
+import { MatDialog } from '@angular/material/dialog';
+import { NoteComponent } from '../note/note.component';
 @Component({
   selector: 'app-assignment-detail',
   standalone: true,
@@ -23,15 +25,21 @@ import { Auth } from '../../user/auth.model';
   styleUrl: './assignment-detail.component.css'
 })
 export class AssignmentDetailComponent implements OnInit {
-  assignmentTransmis!: Assignment|undefined;
-  user!:User;
-  constructor(private assignmentsService:AssignmentsService,
-              private authService:AuthService,
-              private route:ActivatedRoute,
-              private matiereService:MatiereService,
-              private userService:UsersService,
-              private imageService:FileUploadService,
-              private router:Router) { }
+  assignmentTransmis?: Assignment;
+  user!: User;
+  rendu!: boolean;
+  constructor(private assignmentsService: AssignmentsService,
+    private authService: AuthService,
+    private route: ActivatedRoute,
+    private matiereService: MatiereService,
+    private userService: UsersService,
+    private imageService: FileUploadService,
+    public dialog: MatDialog,
+    private router: Router) { }
+
+  openDialog() {
+    this.dialog.open(NoteComponent, { data: this.assignmentTransmis });
+  }
 
   ngOnInit() {
     // Recuperation des query params (ce qui suit le ? dans l'url)
@@ -43,49 +51,56 @@ export class AssignmentDetailComponent implements OnInit {
     const id = this.route.snapshot.params['id'];
     // On utilise le service pour récupérer l'assignment avec cet id
     this.assignmentsService.getAssignment(id)
-    .subscribe(assignment => {
-      if(assignment){
-        this.matiereService.getMatiere(assignment.id_matiere).subscribe((matiere)=>{
-          if(matiere){
-            this.userService.getUser(matiere.id_user).subscribe((user)=>{
-              if(user){
-                matiere.user = user;
-              } 
-            });
-            matiere.image_name = this.imageService.baseUrl+"/download/"+ matiere.image_name;
-            assignment.matiere = matiere;
-          }
-        })
-        console.log(assignment);
-        this.assignmentTransmis = assignment;
-      }
-    });
+      .subscribe(assignment => {
+        if (assignment) {
+          this.matiereService.getMatiere(assignment.id_matiere).subscribe((matiere) => {
+            if (matiere) {
+              this.userService.getUser(matiere.id_user).subscribe((user) => {
+                if (user) {
+                  matiere.user = user;
+                }
+              });
+              matiere.image_name = this.imageService.baseUrl + "/download/" + matiere.image_name;
+              assignment.matiere = matiere;
+            }
+          })
+          console.log(assignment);
+          this.assignmentTransmis = assignment;
+          this.rendu = assignment.rendu;
+        }
+      });
   }
 
   onAssignmentRendu() {
     // on a cliqué sur la checkbox, on change le statut de l'assignment
-    if(this.assignmentTransmis) {
-      this.assignmentTransmis.rendu = true;
-      this.assignmentsService.updateAssignment(this.assignmentTransmis)
-      .subscribe(message => {
-        console.log(message);
-        // on navigue vers la liste des assignments
-        this.router.navigate(['/home']);
-      });
+    if (this.assignmentTransmis) {
+      if(this.assignmentTransmis.note == undefined){
+        this.openDialog();
+      }
+      else{
+        this.assignmentTransmis.rendu = !this.rendu;
+        // console.log(this.rendu);
+        this.assignmentsService.updateAssignment(this.assignmentTransmis)
+        .subscribe(message => {
+          console.log(message);
+          // on navigue vers la liste des assignments
+          // this.router.navigate(['/home']);
+        });
+      }
     }
   }
 
   onDelete() {
     // on va directement utiliser le service
-    if(this.assignmentTransmis) {
+    if (this.assignmentTransmis) {
       this.assignmentsService.deleteAssignment(this.assignmentTransmis)
-      .subscribe(message => {
-        console.log(message);
-        // on va cacher la vue de detail en mettant assignmentTransmis à undefined
-        this.assignmentTransmis = undefined;
-        // on navigue vers la liste des assignments
-        this.router.navigate(['/home']);
-      });
+        .subscribe(message => {
+          console.log(message);
+          // on va cacher la vue de detail en mettant assignmentTransmis à undefined
+          this.assignmentTransmis = undefined;
+          // on navigue vers la liste des assignments
+          this.router.navigate(['/home']);
+        });
     }
   }
 
@@ -113,7 +128,7 @@ export class AssignmentDetailComponent implements OnInit {
     //   }
     // );
 
-    if(this.authService.userlogged?.status == 'admin'){
+    if (this.authService.userlogged?.status == 'admin') {
       return true;
     }
     return false;

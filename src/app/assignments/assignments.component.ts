@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, NgZone } from '@angular/core';
+import { Component, OnInit, ViewChild, NgZone, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
@@ -23,6 +23,19 @@ import {MatCardModule} from '@angular/material/card'
 import { UsersService } from '../services/user.service';
 import { MatiereService } from '../services/matiere.service';
 import { FileUploadService } from '../services/file-upload.service';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import {
+  MatDialog,
+  MAT_DIALOG_DATA,
+  MatDialogRef,
+  MatDialogTitle,
+  MatDialogContent,
+  MatDialogActions,
+  MatDialogClose,
+} from '@angular/material/dialog';
+import { NoteComponent } from './note/note.component';
 
 @Component({
   selector: 'app-assignments',
@@ -33,6 +46,7 @@ import { FileUploadService } from '../services/file-upload.service';
   imports: [
     MatCardModule,
     CommonModule,
+    MatSlideToggleModule,
     FormsModule,
     ScrollingModule,
     RouterLink,
@@ -48,6 +62,7 @@ import { FileUploadService } from '../services/file-upload.service';
   ],
 })
 export class AssignmentsComponent implements OnInit {
+
   titre = 'Liste des assignments';
   // Pour la pagination
   page = 1;
@@ -58,6 +73,7 @@ export class AssignmentsComponent implements OnInit {
   prevPage!: number;
   hasNextPage!: boolean;
   hasPrevPage!: boolean;
+  slide!:boolean
 
   // tableau des assignments POUR AFFICHAGE
   displayedColumns: string[] = ['nom', 'dateDeRendu', 'rendu'];
@@ -71,11 +87,16 @@ export class AssignmentsComponent implements OnInit {
   constructor(private assignmentsService: AssignmentsService,
     private userService: UsersService,private matiereService: MatiereService,
     private imageService: FileUploadService,
+    public dialog: MatDialog,
     private ngZone: NgZone) {}
 
   getColor(a: any) {
     return a.rendu ? 'green' : 'red';
   }
+
+  openDialog(assignment:Assignment) {
+    this.dialog.open(NoteComponent,{ data : assignment } );
+    }
 
   ngOnInit() {
     console.log('ngOnInit assignments, appelée AVANT affichage du composant');

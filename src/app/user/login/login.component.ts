@@ -52,9 +52,12 @@ export class LoginComponent {
             this.authService.userlogged = user;
           })
         }
+        else{
+          return;
+        }
        // On navigue pour afficher la liste des assignments
        // en utilisant le router de manière programmatique
-        this.router.navigate(['/home']);
+       this.router.navigate(['/home']);
       });
     } else {
       // this.authService.logOut();
