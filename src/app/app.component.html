@@ -8,12 +8,18 @@
 <mat-drawer-container class="example-container" autosize>
   <mat-drawer #drawer class="example-sidenav" mode="side">
     <p><br></p>
-    <h3>Single line lists</h3>
+    <h3>Menu</h3>
     <mat-list>
-      <mat-list-item>
-        <span matListItemTitle>This is the title</span>
-      </mat-list-item>
-      <mat-list-item>Also the title</mat-list-item>
+      <mat-list-item routerLink="/" >Assignment</mat-list-item>
+      <mat-list-item routerLink="" >Ajout Assignment</mat-list-item>
+      <mat-list-item routerLink="" >Liste des Matieres</mat-list-item>
+      <mat-list-item routerLink="" >Ajout de Matiere</mat-list-item>
+      @if(this.loged){
+        <mat-list-item>Logout</mat-list-item>
+      }
+      @else {
+        <mat-list-item>Login</mat-list-item>
+      }
     </mat-list>
   </mat-drawer>
   <mat-drawer-content>

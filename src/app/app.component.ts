@@ -28,7 +28,7 @@ import { Auth } from './user/auth.model';
 })
 export class AppComponent implements OnInit {
   title = 'Application de gestion des assignments';
-
+  loged = false
   constructor(private authService:AuthService,
               private assignmentsService: AssignmentsService,
               private router:Router) {}
@@ -38,6 +38,7 @@ export class AppComponent implements OnInit {
     let localToken = localStorage.getItem('token')
     let user!: User;
     if(localToken){
+      this.loged = true;
       let auth = new Auth();
       auth.auth =true;
       auth.token = localToken;
