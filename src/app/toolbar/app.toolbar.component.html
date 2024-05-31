@@ -1,0 +1,31 @@
+<mat-form-field>
+  <mat-label>Matière</mat-label>
+  <mat-select #hasBackdrop>
+    <a routerLink="/matiere">
+      <mat-option>
+        <button mat-flat-button color="grey">Liste</button>
+      </mat-option>
+    </a>
+    <a routerLink="/matiere/add">
+      <mat-option>
+        <button mat-flat-button color="grey">Ajouter</button>
+      </mat-option>
+    </a>
+  </mat-select>
+</mat-form-field>
+
+<mat-form-field>
+  <mat-label>Utilisateur</mat-label>
+  <mat-select #hasBackdrop>
+    <a routerLink="/add">
+      <mat-option>
+        <button mat-flat-button color="grey">Liste</button>
+      </mat-option>
+    </a>
+    <a routerLink="/add">
+      <mat-option>
+        <button mat-flat-button color="grey">Ajouter</button>
+      </mat-option>
+    </a>
+  </mat-select>
+</mat-form-field>

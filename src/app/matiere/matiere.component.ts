@@ -1,8 +1,8 @@
 import { Component, NgZone, ViewChild } from '@angular/core';
-import {animate, state, style, transition, trigger} from '@angular/animations';
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
-import {MatTableModule} from '@angular/material/table';
+import { animate, state, style, transition, trigger } from '@angular/animations';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTableModule } from '@angular/material/table';
 import { Matiere } from './matiere.model';
 import { Location } from '@angular/common';
 import { RouterModule } from '@angular/router';
@@ -12,27 +12,33 @@ import {
   ScrollingModule,
 } from '@angular/cdk/scrolling';
 import { filter, map, pairwise, tap, throttleTime } from 'rxjs/operators';
-import { PageEvent,MatPaginatorModule } from '@angular/material/paginator';
+import { PageEvent, MatPaginatorModule } from '@angular/material/paginator';
 import { FileUploadService } from '../services/file-upload.service';
 import { UsersService } from '../services/user.service';
+import { ToolComponent } from '../toolbar/app.toolbar.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 @Component({
   selector: 'app-matiere',
   standalone: true,
   animations: [
     trigger('detailExpand', [
-      state('collapsed,void', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
+      state('collapsed,void', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
-  imports: [MatTableModule, MatButtonModule,RouterModule, MatIconModule,MatPaginatorModule],
+  imports: [MatTableModule, MatButtonModule, RouterModule, MatIconModule, MatPaginatorModule, ScrollingModule, ToolComponent, MatFormFieldModule, MatSelectModule, MatSidenavModule,MatListModule,MatToolbarModule],
   templateUrl: './matiere.component.html',
   styleUrl: './matiere.component.css'
 })
 export class MatiereComponent {
   @ViewChild('scroller') scroller!: CdkVirtualScrollViewport;
-  
+
   dataSource = ELEMENT_DATA;
   columnsToDisplay = ['code', 'nom'];
   columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
@@ -49,8 +55,8 @@ export class MatiereComponent {
 
   matieres: Matiere[] = [];
 
-  constructor(private matiereService: MatiereService,private imageService: FileUploadService,private userService: UsersService,
-    private ngZone: NgZone) {}
+  constructor(private matiereService: MatiereService, private imageService: FileUploadService, private userService: UsersService,
+    private ngZone: NgZone) { }
 
   ngOnInit() {
     console.log('ngOnInit matiere, appelée AVANT affichage du composant');
@@ -86,15 +92,15 @@ export class MatiereComponent {
         // On ne rentre que si on scrolle vers le bas, que si
         // la distance de la scrollbar est < 100 pixels et que
         // toutes les 200 ms
-          console.log('On demande de nouveaux matiere');
-          // on va faire une requête pour demander les matiere suivants
-          // et on va concatener le resultat au tableau des matiere courants
-          console.log('je CHARGE DE NOUVELLES DONNEES page = ' + this.page);
-          this.ngZone.run(() => {
-            if (!this.hasNextPage) return;
-            this.page = this.nextPage;
-            this.getMatiereFromServicePourScrollInfini();
-          });
+        console.log('On demande de nouveaux matiere');
+        // on va faire une requête pour demander les matiere suivants
+        // et on va concatener le resultat au tableau des matiere courants
+        console.log('je CHARGE DE NOUVELLES DONNEES page = ' + this.page);
+        this.ngZone.run(() => {
+          if (!this.hasNextPage) return;
+          this.page = this.nextPage;
+          this.getMatiereFromServicePourScrollInfini();
+        });
       });
   }
 
@@ -107,11 +113,11 @@ export class MatiereComponent {
         console.log('Données arrivées');
         this.matieres = data.docs;
         this.matieres.forEach(element => {
-          element.image_name = this.imageService.baseUrl+"/download/"+ element.image_name ;
-          this.userService.getUser(element.id_user).subscribe((user)=>{
+          element.image_name = this.imageService.baseUrl + "/download/" + element.image_name;
+          this.userService.getUser(element.id_user).subscribe((user) => {
             element.user = user;
           })
-            // console.log(element);
+          // console.log(element);
           // this.imageService.getFile(element.image_name).subscribe((dataImage)=>{
           //   element.image_name = dataImage;
           // })
@@ -186,21 +192,21 @@ const ELEMENT_DATA: Matiere[] = [
     code: '001',
     nom: 'Base de données',
     description: 'matiere base de donnees',
-    id_user : '1',
-    image_name: location.protocol+"//"+location.host +'/assets/mg.png'
+    id_user: '1',
+    image_name: location.protocol + "//" + location.host + '/assets/mg.png'
   },
   {
     code: '002',
     nom: 'Technologies Web',
     description: 'matiere Technologies Web',
-    id_user : '1',
+    id_user: '1',
     image_name: 'mg.jpeg'
   },
   {
     code: '003',
     nom: 'Grails',
     description: 'matiere Grails',
-    id_user : '1',
+    id_user: '1',
     image_name: 'mg.jpeg'
   }
 ];

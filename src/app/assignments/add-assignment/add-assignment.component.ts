@@ -14,7 +14,12 @@ import {MatSelectModule} from '@angular/material/select';
 import { MatiereService } from '../../services/matiere.service';
 import { AuthService } from '../../shared/auth.service';
 import {MatStepperModule} from '@angular/material/stepper';
-
+import { ToolComponent } from '../../toolbar/app.toolbar.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
 
 // interface Food {
 //   value: string;
@@ -34,6 +39,12 @@ import {MatStepperModule} from '@angular/material/stepper';
     MatDatepickerModule,
     ReactiveFormsModule,
     MatButtonModule,
+    ToolComponent,
+    MatSidenavModule,
+    MatListModule,
+    MatToolbarModule,
+    MatIconModule,
+    RouterModule
   ],
   templateUrl: './add-assignment.component.html',
   styleUrl: './add-assignment.component.css',

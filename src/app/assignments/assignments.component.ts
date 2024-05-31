@@ -23,6 +23,13 @@ import {MatCardModule} from '@angular/material/card'
 import { UsersService } from '../services/user.service';
 import { MatiereService } from '../services/matiere.service';
 import { FileUploadService } from '../services/file-upload.service';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { ToolComponent } from '../toolbar/app.toolbar.component'; 
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
 
 @Component({
   selector: 'app-assignments',
@@ -45,6 +52,13 @@ import { FileUploadService } from '../services/file-upload.service';
     RenduDirective,
     AssignmentDetailComponent,
     AddAssignmentComponent,
+    MatSidenavModule,
+    MatSlideToggleModule,
+    MatToolbarModule,
+    MatIconModule,
+    ToolComponent,
+    MatFormFieldModule,
+    MatSelectModule
   ],
 })
 export class AssignmentsComponent implements OnInit {

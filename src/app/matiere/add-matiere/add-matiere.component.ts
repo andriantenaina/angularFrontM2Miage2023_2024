@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
-import {MatFormFieldModule} from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { Matiere } from '../matiere.model';
 import { AuthService } from '../../shared/auth.service';
@@ -11,16 +9,26 @@ import { HttpResponse } from '@angular/common/http';
 import { MatiereService } from '../../services/matiere.service';
 import { Router } from '@angular/router';
 // import { FileUploadComponent } from '../../components/file-upload/file-upload.component';
+import { ToolComponent } from '../../toolbar/app.toolbar.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
+
 
 @Component({
   selector: 'app-add-matiere',
   standalone: true,
-  imports: [MatFormFieldModule,MatButton,FormsModule, MatInputModule, MatSelectModule],
+  imports: [MatButton,FormsModule, MatInputModule, RouterModule, ToolComponent, MatFormFieldModule, MatSelectModule, MatSidenavModule,MatListModule,MatToolbarModule,MatIconModule],
   templateUrl: './add-matiere.component.html',
   styleUrl: './add-matiere.component.css',
 })
 export class AddMatiereComponent {
 nom: any;
+code: any;
 description: any;
 image_file!: File;
 
@@ -61,6 +69,7 @@ upload(): void {
 
 save(event: any){
   let matiere = new Matiere();
+  matiere.code = this.code;
   matiere.nom = this.nom;
   matiere.description = this.description;
   matiere.image_name = this.image_file.name;

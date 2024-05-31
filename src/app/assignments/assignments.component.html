@@ -1,54 +1,81 @@
-<div class="container">
-  <div class="btnAjout">
-    <a routerLink="/add">
-      <button mat-flat-button color="accent">Ajouter Assignment</button>
-    </a>
-  </div>
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+    <p><br></p>
+    <h3></h3>
+    <mat-list>
+      <a mat-list-item routerLink="/home" class="mat-list-item-link">
+        <span matLine>Assignment</span>
+      </a>
+    </mat-list>
+    
+    <app-toolbar></app-toolbar>
 
-  <h2>{{ titre }}</h2>
+  </mat-drawer>
+  <mat-drawer-content>
 
-  <p>
-    Nb documents : {{ totalDocs }}, nbPages : {{ totalPages }}
-    <br />
-    Page courante : {{ page }}, nb de docs par page : {{ limit }}
-    <!-- add slider for adjusting the limit property, with angular 17 -->
-    <mat-slider min="1" max="100" step="1" thumbLabel>
-      <input matSliderThumb [(ngModel)]="limit" (change)="getAssignmentsFromService()" />
-    </mat-slider>
-  </p>
+    <mat-toolbar>
+      <button mat-icon-button class="example-icon" (click)="drawer.toggle()"
+        aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span></span>
+      <span class="example-spacer"></span>
+      <button mat-icon-button class="logout">
+        <mat-icon aria-hidden="false" aria-label="logout icon" fontIcon="logout" [ariaSetSize]="50"
+          color="warn">
+        </mat-icon>
+      </button>
+    </mat-toolbar>
 
-  <div>
-    @for(a of assignments; track a.nom) {
-    <mat-card class="example-card">
-      <mat-card-header>
-        <!-- <mat-card-title-group> -->
-        <div>
-          <img mat-card-avatar class="example-header-image"
-            src="{{a.matiere?.user?.image_profile}}">
-            <mat-card-subtitle>prof {{a.matiere?.user?.name}}</mat-card-subtitle>
-        </div>
-        <div>
-          <mat-card-title>
-            <a routerLink="/assignment/{{ a._id }}">
-              {{a.nom}}
-          </a>
-        </mat-card-title>
-          <mat-card-subtitle>{{a.dateDeRendu | date : "dd/MM/yyyy"}}</mat-card-subtitle>
-        </div>
-        <div>
-          <img mat-card-avatar class="example-header-image"
-            src="{{a.matiere?.image_name}}">
-        </div>
-        <!-- </mat-card-title-group> -->
-      </mat-card-header>
-      <mat-card-content>
-        {{a.user?.name}}
-      </mat-card-content>
-    </mat-card>
-    }
-  </div>
+    
+    <div class="container">
+      <!-- <button mat-button (click)="sidenav.toggle()">Toggle Sidenav</button> -->
+      <div class="btnAjout">
+        <a routerLink="/add">
+          <button mat-flat-button color="accent">Ajouter Assignment</button>
+        </a>
+      </div>
+      <h2>{{ titre }}</h2>
+      <p>
+        Nb documents : {{ totalDocs }}, nbPages : {{ totalPages }}
+        <br />
+        Page courante : {{ page }}, nb de docs par page : {{ limit }}
+        <!-- add slider for adjusting the limit property, with angular 17 -->
+        <mat-slider min="1" max="100" step="1" thumbLabel>
+          <input matSliderThumb [(ngModel)]="limit" (change)="getAssignmentsFromService()" />
+        </mat-slider>
+      </p>
+      <div>
+        @for(a of assignments; track a.nom) {
+        <mat-card class="example-card">
+          <mat-card-header>
+            <!-- <mat-card-title-group> -->
+            <div>
+              <img mat-card-avatar class="example-header-image" src="{{a.matiere?.user?.image_profile}}">
+              <mat-card-subtitle>prof {{a.matiere?.user?.name}}</mat-card-subtitle>
+            </div>
+            <div>
+              <mat-card-title>
+                <a routerLink="/assignment/{{ a._id }}">
+                  {{a.nom}}
+                </a>
+              </mat-card-title>
+              <mat-card-subtitle>{{a.dateDeRendu | date : "dd/MM/yyyy"}}</mat-card-subtitle>
+            </div>
+            <div>
+              <img mat-card-avatar class="example-header-image" src="{{a.matiere?.image_name}}">
+            </div>
+            <!-- </mat-card-title-group> -->
+          </mat-card-header>
+          <mat-card-content>
+            {{a.user?.name}}
+          </mat-card-content>
+        </mat-card>
+        }
+      </div>
+    </div>
 
-  <!-- <h2>Version avec scrolling infini</h2>
+    <!-- <h2>Version avec scrolling infini</h2>
   <cdk-virtual-scroll-viewport itemSize="50" class="example-viewport" #scroller>
     <mat-list *cdkVirtualFor="let a of assignments" class="example-item">
       <a routerLink="/assignments/{{ a._id }}">
@@ -63,7 +90,7 @@
     </mat-list>
   </cdk-virtual-scroll-viewport> -->
 
-  <!-- <h1>Avec data table</h1>
+    <!-- <h1>Avec data table</h1>
 
   <div>
     <button mat-raised-button color="primary" [disabled]="!hasPrevPage" [disabled]="!hasPrevPage"
@@ -110,7 +137,7 @@
   </table> -->
 
 
-  <!-- <h1>Version avec ul / li et for</h1>
+    <!-- <h1>Version avec ul / li et for</h1>
   <mat-divider></mat-divider>
   <mat-list>
     @for(a of assignments; track a.nom) {
@@ -131,7 +158,7 @@
   </mat-list>
 </div> -->
 
-<!--
+    <!--
 <p>Avec Angular supérieur à la version 17</p>
 <table>
   <tbody>

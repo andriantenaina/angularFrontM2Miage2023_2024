@@ -1,3 +1,30 @@
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+    <p><br></p>
+    <h3></h3>
+    <mat-list>
+      <a mat-list-item routerLink="/home" class="mat-list-item-link">
+        <span matLine>Assignment</span>
+      </a>
+    </mat-list>
+
+    <app-toolbar></app-toolbar>
+
+  </mat-drawer>
+  <mat-drawer-content>
+
+    <mat-toolbar>
+      <button mat-icon-button class="example-icon" (click)="drawer.toggle()"
+        aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span></span>
+      <span class="example-spacer"></span>
+      <button mat-icon-button class="logout">
+        <mat-icon aria-hidden="false" aria-label="logout icon" fontIcon="logout" [ariaSetSize]="50" color="warn">
+        </mat-icon>
+      </button>
+    </mat-toolbar>
 <h1>Ajout d'un assignment</h1>
 
 <mat-stepper #stepper>

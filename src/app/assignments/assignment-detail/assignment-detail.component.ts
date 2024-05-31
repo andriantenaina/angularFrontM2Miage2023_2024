@@ -14,11 +14,21 @@ import { UsersService } from '../../services/user.service';
 import { FileUploadService } from '../../services/file-upload.service';
 import { User } from '../../user/user.model';
 import { Auth } from '../../user/auth.model';
+import { ToolComponent } from '../../toolbar/app.toolbar.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
+
+
 @Component({
   selector: 'app-assignment-detail',
   standalone: true,
   imports: [CommonModule, RouterLink,
-    MatButtonModule, MatCardModule, MatCheckboxModule],
+    MatButtonModule, MatCardModule, MatCheckboxModule, ToolComponent, MatFormFieldModule, MatSelectModule, MatSidenavModule, MatListModule, MatToolbarModule, MatIconModule, RouterModule],
   templateUrl: './assignment-detail.component.html',
   styleUrl: './assignment-detail.component.css'
 })
