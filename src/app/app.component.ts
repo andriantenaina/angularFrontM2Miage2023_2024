@@ -33,6 +33,22 @@ export class AppComponent implements OnInit {
               private assignmentsService: AssignmentsService,
               private router:Router) {}
 
+  logout(){
+    this.authService.logOut();
+    this.router.navigate(['/login']);
+  }
+  
+  log(){
+    if(this.loged){
+      this.authService.logOut();
+      this.loged = false;
+      this.router.navigate(['/login']);
+    }
+    else{
+      this.loged = false;
+      this.router.navigate(['/login']);
+    }
+  }
               
   ngOnInit(): void {
     let localToken = localStorage.getItem('token')

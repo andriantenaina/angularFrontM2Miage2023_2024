@@ -10,16 +10,18 @@
     <p><br></p>
     <h3>Menu</h3>
     <mat-list>
-      <mat-list-item routerLink="/" >Assignment</mat-list-item>
-      <mat-list-item routerLink="" >Ajout Assignment</mat-list-item>
-      <mat-list-item routerLink="" >Liste des Matieres</mat-list-item>
-      <mat-list-item routerLink="" >Ajout de Matiere</mat-list-item>
-      @if(this.loged){
-        <mat-list-item>Logout</mat-list-item>
-      }
-      @else {
-        <mat-list-item>Login</mat-list-item>
-      }
+      <mat-list-item><a routerLink="/home">Assignment</a></mat-list-item>
+      <mat-list-item><a routerLink="/add">Ajout Assignment</a></mat-list-item>
+      <mat-list-item><a routerLink="/matiere">Liste des Matieres</a></mat-list-item>
+      <mat-list-item><a routerLink="/matiere/add">Ajout de Matiere</a></mat-list-item>
+      <mat-list-item><a (click)="log()">
+        @if(this.loged){
+          Logout
+        }
+        @else {
+          Login
+        }
+      </a></mat-list-item>
     </mat-list>
   </mat-drawer>
   <mat-drawer-content>
@@ -30,12 +32,12 @@
       </button>
       <span>My App</span>
       <span class="example-spacer"></span>
-      <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">
+      <button mat-icon-button class="example-icon favorite-icon" (click)="log()" aria-label="Example icon-button with heart icon">
         <mat-icon>favorite</mat-icon>
       </button>
-      <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
+      <!-- <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">
         <mat-icon>share</mat-icon>
-      </button>
+      </button> -->
     </mat-toolbar>
     <router-outlet></router-outlet>
     <!-- <button mat-raised-button (click)="drawer.toggle()">Toggle drawer</button> -->

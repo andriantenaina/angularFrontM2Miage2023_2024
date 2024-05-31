@@ -30,9 +30,9 @@ export const routes: Routes = [
   { path: 'matiere', component: MatiereComponent },
   { 
     path: 'matiere/add', component: AddMatiereComponent, 
-    canActivate:[authGuard],
-    data : {
-      role : ['admin']
-    }
+    // canActivate:[authGuard],
+    // data : {
+    //   role : ['admin','prof']
+    // }
   },
 ];
