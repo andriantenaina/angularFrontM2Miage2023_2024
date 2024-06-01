@@ -11,7 +11,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatiereService } from '../../services/matiere.service';
 import { Matiere } from '../../matiere/matiere.model';
 import {MatSelectModule} from '@angular/material/select';
-
+import { ToolComponent } from '../../toolbar/app.toolbar.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
+import { AuthService } from '../../shared/auth.service';
 @Component({
   selector: 'app-edit-assignment',
   standalone: true,
@@ -23,6 +29,12 @@ import {MatSelectModule} from '@angular/material/select';
     MatFormFieldModule,
     MatDatepickerModule,
     MatButtonModule,
+    ToolComponent,
+    MatSidenavModule,
+    MatListModule,
+    MatToolbarModule,
+    MatIconModule,
+    RouterModule
   ],
   templateUrl: './edit-assignment.component.html',
   styleUrl: './edit-assignment.component.css',
@@ -37,6 +49,7 @@ export class EditAssignmentComponent implements OnInit {
   remarque? = '';
 
   constructor(
+    private authService:AuthService,
     private assignmentsService: AssignmentsService,
     private matiereService:MatiereService,
     private router: Router,
@@ -67,6 +80,10 @@ export class EditAssignmentComponent implements OnInit {
     })
   }
 
+  logout(){
+    this.authService.logOut();
+    this.router.navigate(['/login']);
+  }
   onSaveAssignment() {
     if (!this.assignment) return;
     if (this.nomAssignment == '' || this.dateDeRendu === undefined) return;

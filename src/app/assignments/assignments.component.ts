@@ -23,8 +23,6 @@ import {MatCardModule} from '@angular/material/card'
 import { UsersService } from '../services/user.service';
 import { MatiereService } from '../services/matiere.service';
 import { FileUploadService } from '../services/file-upload.service';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import {
   MatDialog,
@@ -36,6 +34,15 @@ import {
   MatDialogClose,
 } from '@angular/material/dialog';
 import { NoteComponent } from './note/note.component';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { ToolComponent } from '../toolbar/app.toolbar.component'; 
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatSelectModule} from '@angular/material/select';
+import { AuthService } from '../shared/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-assignments',
@@ -59,6 +66,13 @@ import { NoteComponent } from './note/note.component';
     RenduDirective,
     AssignmentDetailComponent,
     AddAssignmentComponent,
+    MatSidenavModule,
+    MatSlideToggleModule,
+    MatToolbarModule,
+    MatIconModule,
+    ToolComponent,
+    MatFormFieldModule,
+    MatSelectModule
   ],
 })
 export class AssignmentsComponent implements OnInit {
@@ -85,10 +99,12 @@ export class AssignmentsComponent implements OnInit {
 
   // ici on injecte le service
   constructor(private assignmentsService: AssignmentsService,
+    private authService:AuthService,
     private userService: UsersService,private matiereService: MatiereService,
     private imageService: FileUploadService,
     public dialog: MatDialog,
-    private ngZone: NgZone) {}
+    private ngZone: NgZone,
+    private router:Router) {}
 
   getColor(a: any) {
     return a.rendu ? 'green' : 'red';
@@ -184,6 +200,11 @@ export class AssignmentsComponent implements OnInit {
         this.hasPrevPage = data.hasPrevPage;
       });
     console.log('Requête envoyée');
+  }
+
+  logout(){
+    this.authService.logOut();
+    this.router.navigate(['/login']);
   }
 
   getAssignmentsFromServicePourScrollInfini() {

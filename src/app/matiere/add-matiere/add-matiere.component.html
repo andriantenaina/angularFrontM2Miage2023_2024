@@ -1,6 +1,42 @@
-<div>
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+    <p><br></p>
+    <h3></h3>
+    <mat-list>
+      <a mat-list-item routerLink="/home" class="mat-list-item-link">
+        <span matLine>Assignment</span>
+      </a>
+    </mat-list>
+    
+    <app-toolbar></app-toolbar>
 
+  </mat-drawer>
+  <mat-drawer-content>
+
+    <mat-toolbar>
+      <button mat-icon-button class="example-icon" (click)="drawer.toggle()"
+        aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span></span>
+      <span class="example-spacer"></span>
+      <button mat-icon-button class="logout" (click)="logout()">
+        <mat-icon aria-hidden="false" aria-label="logout icon" fontIcon="logout" [ariaSetSize]="50"
+          color="warn">
+        </mat-icon>
+      </button>
+    </mat-toolbar>
+    <h1>Ajout d'un matière</h1>
+
+
+<div class="container">
   <form ngForm #loginForm (submit)="save($event); loginForm.reset()" class="form">
+    
+    <mat-form-field class="example-full-width">
+      <mat-label>Code</mat-label>
+      <input matInput type="text" [(ngModel)]="code" name="code" />
+    </mat-form-field>
+
     <mat-form-field class="example-full-width">
       <mat-label>Nom de la matiere</mat-label>
       <input type="text" matInput placeholder="Base de données"
@@ -17,6 +53,6 @@
       <input type="file" [(ngModel)]="image_file" (change)="selectFile($event)" name="image" />
     <!-- </mat-form-field> -->
 
-    <button mat-flat-button color="primary">Save</button>
+    <button mat-flat-button color="primary">Enregister</button>
   </form>
 </div>

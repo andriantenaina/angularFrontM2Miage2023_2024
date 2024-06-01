@@ -63,3 +63,59 @@ table, tr, td {
 .mat-mdc-card-avatar{
   margin-bottom: 0px;
 }
+
+
+/* 
+.example-container {
+  height: 100vh;
+  display: flex;
+} */
+
+.example-sidenav {
+  width: 250px;
+  background-color: #ebedf5; /* Primary color */
+  color: white;
+  padding: 16px;
+}
+
+.example-container {
+  height: 100vh;
+  display: flex;
+}
+
+
+.example-sidenav h3 {
+  margin-top: 0;
+  font-size: 24px;
+  font-weight: 400;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  padding-bottom: 8px;
+}
+
+.mat-list-item-link {
+  text-decoration: none;
+  color: white;
+}
+
+.mat-list-item-link:hover {
+  background-color: #c3c6d8;
+}
+
+.mat-list-item-link span[matLine] {
+  display: block;
+  line-height: 48px;
+}
+
+.mat-drawer-content {
+  flex-grow: 1;
+  background: #f5f5f5;
+  padding: 16px;
+}
+
+mat-drawer-content p {
+  font-size: 16px;
+}
+
+.logout{
+  margin-left: 90%;
+}

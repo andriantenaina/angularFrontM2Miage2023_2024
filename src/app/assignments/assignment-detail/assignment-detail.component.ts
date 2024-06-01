@@ -16,11 +16,21 @@ import { User } from '../../user/user.model';
 import { Auth } from '../../user/auth.model';
 import { MatDialog } from '@angular/material/dialog';
 import { NoteComponent } from '../note/note.component';
+import { ToolComponent } from '../../toolbar/app.toolbar.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
+
+
 @Component({
   selector: 'app-assignment-detail',
   standalone: true,
   imports: [CommonModule, RouterLink,
-    MatButtonModule, MatCardModule, MatCheckboxModule],
+    MatButtonModule, MatCardModule, MatCheckboxModule, ToolComponent, MatFormFieldModule, MatSelectModule, MatSidenavModule, MatListModule, MatToolbarModule, MatIconModule, RouterModule],
   templateUrl: './assignment-detail.component.html',
   styleUrl: './assignment-detail.component.css'
 })
@@ -70,7 +80,11 @@ export class AssignmentDetailComponent implements OnInit {
         }
       });
   }
-
+  
+  logout(){
+    this.authService.logOut();
+    this.router.navigate(['/login']);
+  }
   onAssignmentRendu() {
     // on a cliqué sur la checkbox, on change le statut de l'assignment
     if (this.assignmentTransmis) {
