@@ -30,6 +30,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { ToolComponent } from '../toolbar/app.toolbar.component'; 
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
+import { AuthService } from '../shared/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-assignments',
@@ -83,9 +85,11 @@ export class AssignmentsComponent implements OnInit {
 
   // ici on injecte le service
   constructor(private assignmentsService: AssignmentsService,
+    private authService:AuthService,
     private userService: UsersService,private matiereService: MatiereService,
     private imageService: FileUploadService,
-    private ngZone: NgZone) {}
+    private ngZone: NgZone,
+    private router:Router) {}
 
   getColor(a: any) {
     return a.rendu ? 'green' : 'red';
@@ -177,6 +181,11 @@ export class AssignmentsComponent implements OnInit {
         this.hasPrevPage = data.hasPrevPage;
       });
     console.log('Requête envoyée');
+  }
+
+  logout(){
+    this.authService.logOut();
+    this.router.navigate(['/login']);
   }
 
   getAssignmentsFromServicePourScrollInfini() {

@@ -21,6 +21,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import { AuthService } from '../shared/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-matiere',
@@ -55,12 +57,17 @@ export class MatiereComponent {
 
   matieres: Matiere[] = [];
 
-  constructor(private matiereService: MatiereService, private imageService: FileUploadService, private userService: UsersService,
+  constructor(private matiereService: MatiereService,private router: Router,private imageService: FileUploadService, private userService: UsersService,private authService:AuthService,
     private ngZone: NgZone) { }
 
   ngOnInit() {
     console.log('ngOnInit matiere, appelée AVANT affichage du composant');
     this.getMatiereFromService();
+  }
+  
+  logout(){
+    this.authService.logOut();
+    this.router.navigate(['/login']);
   }
 
   ngAfterViewInit() {

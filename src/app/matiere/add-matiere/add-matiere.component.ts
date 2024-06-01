@@ -67,6 +67,11 @@ upload(): void {
   }
 }
 
+logout(){
+  this.authService.logOut();
+  this.router.navigate(['/login']);
+}
+
 save(event: any){
   let matiere = new Matiere();
   matiere.code = this.code;

@@ -71,7 +71,11 @@ export class AssignmentDetailComponent implements OnInit {
       }
     });
   }
-
+  
+  logout(){
+    this.authService.logOut();
+    this.router.navigate(['/login']);
+  }
   onAssignmentRendu() {
     // on a cliqué sur la checkbox, on change le statut de l'assignment
     if(this.assignmentTransmis) {

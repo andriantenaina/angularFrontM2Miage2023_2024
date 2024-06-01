@@ -94,6 +94,11 @@ export class AddAssignmentComponent implements OnInit {
       this.matieres = data.docs;
     })
   }
+  
+  logout(){
+    this.authService.logOut();
+    this.router.navigate(['/login']);
+  }
 
   onSubmit(event: any) {
     if((this.nomAssignment == '') || (this.dateDeRendu === undefined)) return;
