@@ -25,12 +25,25 @@
         </mat-icon>
       </button>
     </mat-toolbar>
+    <h2>{{ titre }}</h2>
 
     <div class="btnAjout">
       <a routerLink="/add">
         <button mat-flat-button color="accent" style="margin-left: 90%;">Ajouter Assignment</button>
       </a>
       <div>
+
+
+        <p>
+          Nb documents : {{ totalDocs }}, nbPages : {{ totalPages }}
+          <br />
+          Page courante : {{ page }}, nb de docs par page : {{ limit }}
+          <!-- add slider for adjusting the limit property, with angular 17 -->
+          <mat-slider min="1" max="100" step="1" thumbLabel>
+            <input matSliderThumb [(ngModel)]="limit" (change)="getAssignmentsFromService()" />
+          </mat-slider>
+        </p>
+
         @for(a of assignments; track a.nom) {
         <mat-card class="example-card">
           <mat-card-header>
