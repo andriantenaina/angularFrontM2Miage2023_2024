@@ -13,6 +13,7 @@ Projet front-end pour les étudiants du Master MIAGE MBDS de Madagascar
 2. instalation des packages : `npm install`
 3. Demarrage du serveur d'application `ng serve`
 4. ouverture de l'app dans le navigateur avec le lien : `http://localhost:4200`
+5. lien sur render: https://angularfrontm2miage2023-2024-74a7.onrender.com/
 
 ## contribution
 
