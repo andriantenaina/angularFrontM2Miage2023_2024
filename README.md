@@ -23,7 +23,7 @@ nous avons ajouter les fonctionnalite suivante dans ce projet :
 * Ajouter une Toolbar et une SideBar/Sidenav pour la présentation.
 * Ajouter une gestion de login/password
     nous avons utiliser une authentification à l'aide de JSON Web Tokens (JWT)
-* pour lesa assignment nous avons :  
+* pour les assignment nous avons :  
   * ajouter l'Auteur (nom ou photo de l'élève).
   * Matière.
   * Note sur 20, on ne peut marquer "rendu" un Assignment qui n'a pas été noté.
